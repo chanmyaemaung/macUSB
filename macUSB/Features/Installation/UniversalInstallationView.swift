@@ -161,6 +161,27 @@ struct UniversalInstallationView: View {
                         }
                     }
 
+                    if isLinuxWorkflow {
+                        StatusCard(tone: .active, density: .compact) {
+                            HStack(alignment: .center) {
+                                Image(systemName: "info.circle.fill")
+                                    .font(sectionIconFont)
+                                    .foregroundColor(.accentColor)
+                                    .frame(width: MacUSBDesignTokens.iconColumnWidth)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Komunikat o nieczytelności nośnika w trakcie tworzenia.")
+                                        .font(.headline)
+                                        .foregroundColor(.accentColor)
+                                    Text("Podczas tworzenia nośnika startowego Linux system macOS może wyświetlić komunikat: „Dołączony dysk nie jest czytelny dla tego komputera.” Jest to spodziewane zachowanie. Aby kontynuować, w tym oknie wybierz „Ignoruj”.")
+                                        .font(.subheadline)
+                                        .foregroundColor(.accentColor)
+                                }
+                                Spacer()
+                            }
+                        }
+                        .transition(.opacity)
+                    }
+
                     if shouldShowRequiredPermissionsWarning {
                         StatusCard(tone: .warning, density: .compact) {
                             HStack(alignment: .center) {

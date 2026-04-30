@@ -35626,6 +35626,170 @@
         }
       }
     },
+    "Komunikat o nieczytelności nośnika w trakcie tworzenia." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinweis zur Nichtlesbarkeit des Mediums während der Erstellung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message about unreadable media during creation"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensaje sobre la imposibilidad de leer el disco durante la creación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message sur la non-lisibilité du disque pendant la création"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messaggio sul supporto non leggibile durante la creazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作成中に表示されるディスク読み取り不可メッセージ"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komunikat o nieczytelności nośnika w trakcie tworzenia."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mensagem sobre mídia não legível durante a criação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сообщение о нечитаемом носителе во время создания"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oluşturma sırasında okunamayan ortamla ilgili ileti"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повідомлення про нечитабельність носія під час створення"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thông báo về ổ đĩa không thể đọc trong khi tạo"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建过程中的磁盘不可读提示"
+          }
+        }
+      }
+    },
+    "Podczas tworzenia nośnika startowego Linux system macOS może wyświetlić komunikat: „Dołączony dysk nie jest czytelny dla tego komputera.” Jest to spodziewane zachowanie. Aby kontynuować, w tym oknie wybierz „Ignoruj”." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beim Erstellen eines Linux-Startmediums kann macOS diese Meldung anzeigen: „Das angeschlossene Medium konnte von diesem Computer nicht gelesen werden.“ Dieses Verhalten ist zu erwarten. Um fortzufahren, wähle in diesem Fenster „Ignorieren“."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "While creating Linux boot media, macOS may show this message: “The disk you attached was not readable by this computer.” This is expected behavior. To continue, choose “Ignore” in that window."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durante la creación de un medio de arranque Linux, macOS puede mostrar este mensaje: «El ordenador no ha podido leer el disco conectado.» Este comportamiento es esperado. Para continuar, selecciona «Ignorar» en esa ventana."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendant la création d’un support de démarrage Linux, macOS peut afficher le message suivant : « Le disque que vous avez connecté n’est pas lisible par cet ordinateur. » Ce comportement est attendu. Pour continuer, choisissez « Ignorer » dans cette fenêtre."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durante la creazione di un supporto di avvio Linux, macOS può mostrare il seguente messaggio: «Il disco collegato non può essere letto da questo computer.» Si tratta di un comportamento previsto. Per continuare, in questa finestra scegli «Ignora»."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linux起動メディアの作成中に、macOSが次のメッセージを表示する場合があります:「接続したディスクは、このコンピュータで読み取れないディスクでした。」これは想定内の動作です。続けるには、このウインドウで「無視」を選択してください。"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Podczas tworzenia nośnika startowego Linux system macOS może wyświetlić komunikat: „Dołączony dysk nie jest czytelny dla tego komputera.” Jest to spodziewane zachowanie. Aby kontynuować, w tym oknie wybierz „Ignoruj”."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durante a criação de uma mídia de inicialização Linux, o macOS pode mostrar a seguinte mensagem: “O disco que você conectou não pôde ser lido por este computador.” Esse comportamento é esperado. Para continuar, selecione “Ignorar” nessa janela."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Во время создания загрузочного носителя Linux macOS может показать сообщение: «Подключенный Вами диск нельзя прочитать на этом компьютере.» Это ожидаемое поведение. Чтобы продолжить, в этом окне выберите «Пропустить»."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linux önyükleme ortamı oluşturulurken macOS şu iletiyi gösterebilir: “Taktığınız disk bu bilgisayar tarafından okunamadı.” Bu beklenen bir davranıştır. Devam etmek için bu pencerede “Yok Say” seçeneğini seçin."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Під час створення завантажувального носія Linux macOS може показати таке повідомлення: «Цей компʼютер не може прочитати підʼєднаний вами диск.» Це очікувана поведінка. Щоб продовжити, у цьому вікні виберіть «Ігнорувати»."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong khi tạo phương tiện khởi động Linux, macOS có thể hiển thị thông báo: “Máy tính này không thể đọc được ổ đĩa bạn đưa vào.” Đây là hành vi dự kiến. Để tiếp tục, trong cửa sổ này hãy chọn “Bỏ qua”."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在创建 Linux 启动介质时，macOS 可能会显示以下提示：“此电脑不能读取你连接的磁盘。”这是预期行为。要继续，请在该窗口中选择“忽略”。"
+          }
+        }
+      }
+    },
     "日本語" : {
       "localizations" : {
         "de" : {

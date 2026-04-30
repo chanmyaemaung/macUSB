@@ -21,6 +21,11 @@ Linux raw-copy stages:
 - `cleanup_temp` — deterministic temp cleanup,
 - `finalize` — terminal state transition.
 
+Linux summary screen (`UniversalInstallationView`) should show an informational card before the process-stages section:
+- card is visible only for Linux workflow,
+- card uses accent tone (`.active`) with SF Symbol `info.circle.fill`,
+- copy explains that macOS may show an unreadable-disk dialog and user should choose `Ignore`.
+
 ## Helper and Privilege Invariants
 
 - Privileged operations must run through helper (`SMAppService + XPC`).
