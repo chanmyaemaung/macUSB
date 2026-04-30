@@ -24,6 +24,8 @@ Runtime sequence:
 - app first attempts standard image attach/read path (same as macOS analysis),
 - when macOS installer is not found, Linux detection first tries mounted-image metadata if mount path exists,
 - if mounted-image Linux detection does not produce a result (or mount path is unavailable), app falls back to archive reading via `bsdtar` (without mounting).
+- the whole `.iso`/`.cdr` image-analysis session is additionally guarded by a global 20-second timeout; on timeout, analysis is force-finished as unrecognized installer.
+- on timeout, any mounted source image for this analysis session must be force-detached before finalizing state.
 
 If `.iso`/`.cdr` is already mounted manually in macOS, analysis is blocked and user must unmount first (same guard as macOS analysis path).
 
@@ -112,12 +114,15 @@ When Linux fallback runs, logs must include:
 
 - transition entry from macOS detection to Linux fallback,
 - transition entry from mounted Linux detection to archive (`bsdtar`) fallback when needed,
+- image-analysis timeout session diagnostics (`runID`, timeout start, timeout finish when triggered),
+- timeout-triggered source-image detach diagnostics (mount path + success/failure),
 - final Linux result string,
 - parsed details: `distro`, `version`, `edition`, `arch`, `isARM`,
 - source file size in bytes (when available),
 - selected USB threshold in GB only,
 - evidence summary (files/rules that produced the result),
-- archive-reader diagnostics for timeout/error cases.
+- archive-reader diagnostics for timeout/error cases,
+- ignored stale callback entry when an expired session returns after timeout.
 
 When manual Linux force runs, logs must include:
 

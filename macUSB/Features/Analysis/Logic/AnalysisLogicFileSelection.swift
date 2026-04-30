@@ -32,6 +32,7 @@ extension AnalysisLogic {
             let ext = url.pathExtension.lowercased()
             self.log("Wybrano plik w formacie .\(ext). Resetuję stan i przygotowuję analizę.")
             if ext == "dmg" || ext == "app" || ext == "iso" || ext == "cdr" {
+                self.cancelActiveImageAnalysisRun(reason: "Zmiana wybranego pliku podczas analizy")
                 withAnimation {
                     self.selectedFilePath = url.path
                     self.selectedFileUrl = url
@@ -83,6 +84,7 @@ extension AnalysisLogic {
             if $0 == .OK, let url = p.url {
                 let ext = url.pathExtension.lowercased()
                 guard ext == "dmg" || ext == "iso" || ext == "cdr" || ext == "app" else { return }
+                self.cancelActiveImageAnalysisRun(reason: "Wybrano nowy plik źródłowy")
                 withAnimation {
                     self.selectedFilePath = url.path
                     self.selectedFileUrl = url

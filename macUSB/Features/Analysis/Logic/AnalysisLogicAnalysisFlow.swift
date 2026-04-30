@@ -3,6 +3,7 @@ import Foundation
 
 extension AnalysisLogic {
     func startAnalysis() {
+        cancelActiveImageAnalysisRun(reason: "Start nowej analizy")
         guard let url = selectedFileUrl else { return }
         self.stage("Analiza pliku — start")
         self.log("Rozpoczynam analizę pliku")
@@ -23,6 +24,7 @@ extension AnalysisLogic {
         if ext == "dmg" || ext == "iso" || ext == "cdr" {
             self.stage("Analiza obrazu (DMG/ISO/CDR) — start")
             self.log("Analiza obrazu (DMG/ISO/CDR): montowanie obrazu przez hdiutil (attach -plist -nobrowse -readonly), odczyt Info.plist z aplikacji oraz wykrywanie wersji i trybu instalacji.")
+            let analysisRunID = self.beginImageAnalysisRun(sourceURL: url)
             let oldMountPath = self.mountedDMGPath
             DispatchQueue.global(qos: .userInitiated).async {
                 if let path = oldMountPath {
@@ -31,6 +33,10 @@ extension AnalysisLogic {
                 let shouldDetectAlreadyMountedSource = (ext == "cdr" || ext == "iso")
                 let result = self.mountAndReadInfo(dmgUrl: url, detectPreMountedSource: shouldDetectAlreadyMountedSource)
                 DispatchQueue.main.async {
+                    guard self.isImageAnalysisRunCurrent(analysisRunID) else {
+                        self.logIgnoredStaleImageAnalysisCallback(analysisRunID, stage: "mountAndReadInfo")
+                        return
+                    }
                     withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                         self.isAnalyzing = false
                         let mountedReadInfo = result?.mountedReadInfo
@@ -70,7 +76,13 @@ extension AnalysisLogic {
                                 }
                             }
 
-                            if !self.applyMacosCompatibilityForMountedInstaller(name: name, rawVer: rawVer, userVisibleVersionFromMounted: userVisibleVersionFromMounted) {
+                            let compatibilityApplied = self.applyMacosCompatibilityForMountedInstaller(
+                                name: name,
+                                rawVer: rawVer,
+                                userVisibleVersionFromMounted: userVisibleVersionFromMounted
+                            )
+                            self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Rozpoznano instalator macOS z obrazu")
+                            if !compatibilityApplied {
                                 return
                             }
                         } else if sourceAlreadyMounted {
@@ -93,6 +105,7 @@ extension AnalysisLogic {
                             self.requiredUSBCapacityGB = nil
                             self.shouldShowAlreadyMountedSourceAlert = true
                             self.resetLinuxDetectionState()
+                            self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Analiza zatrzymana: obraz źródłowy był już zamontowany")
                             AppLogging.separator()
                         } else {
                             if ext == "iso" || ext == "cdr" {
@@ -100,6 +113,7 @@ extension AnalysisLogic {
                                     self.log("Nie rozpoznano instalatora macOS. Przechodzę do procesu rozpoznawania Linuxa (z zamontowanego obrazu).")
                                     if let linuxResult = self.detectLinux(fromMountPath: mountedImagePath, sourceURL: url) {
                                         self.applyLinuxDetectionResult(linuxResult, sourceURL: url, mountedImagePath: mountedImagePath)
+                                        self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Rozpoznano obraz Linux z zamontowanego źródła")
                                         return
                                     }
                                 }
@@ -109,34 +123,31 @@ extension AnalysisLogic {
                                 DispatchQueue.global(qos: .userInitiated).async {
                                     let linuxResult = self.detectLinuxFromArchive(sourceURL: url)
                                     DispatchQueue.main.async {
+                                        guard self.isImageAnalysisRunCurrent(analysisRunID) else {
+                                            self.logIgnoredStaleImageAnalysisCallback(analysisRunID, stage: "detectLinuxFromArchive")
+                                            return
+                                        }
                                         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                                             defer { self.isAnalyzing = false }
 
                                             if let linuxResult {
                                                 let mountPathForFallback = self.mountedDMGPath
                                                 self.applyLinuxDetectionResult(linuxResult, sourceURL: url, mountedImagePath: mountPathForFallback)
+                                                self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Rozpoznano obraz Linux przez bsdtar")
                                                 return
                                             }
 
                                             self.log("Nie wykryto wiarygodnych sygnałów Linuxa. Kończę analizę jako nierozpoznaną.")
-                                            // Użyto String(localized:) aby ten ciąg został wykryty, mimo że jest przypisywany do zmiennej
-                                            self.recognizedVersion = String(localized: "Nie rozpoznano instalatora")
-                                            self.requiredUSBCapacityGB = nil
-                                            self.resetLinuxDetectionState()
-                                            self.log("Analiza zakończona: nie rozpoznano instalatora.")
-                                            AppLogging.separator()
+                                            self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Brak sygnałów Linuxa po fallbacku bsdtar")
+                                            self.applyUnrecognizedInstallerState()
                                         }
                                     }
                                 }
                                 return
                             }
 
-                            // Użyto String(localized:) aby ten ciąg został wykryty, mimo że jest przypisywany do zmiennej
-                            self.recognizedVersion = String(localized: "Nie rozpoznano instalatora")
-                            self.requiredUSBCapacityGB = nil
-                            self.resetLinuxDetectionState()
-                            self.log("Analiza zakończona: nie rozpoznano instalatora.")
-                            AppLogging.separator()
+                            self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Brak rozpoznania instalatora dla obrazu")
+                            self.applyUnrecognizedInstallerState()
                         }
                     }
                 }
@@ -170,11 +181,7 @@ extension AnalysisLogic {
                                 return
                             }
                         } else {
-                            self.recognizedVersion = String(localized: "Nie rozpoznano instalatora")
-                            self.requiredUSBCapacityGB = nil
-                            self.resetLinuxDetectionState()
-                            self.log("Analiza zakończona: nie rozpoznano instalatora.")
-                            AppLogging.separator()
+                            self.applyUnrecognizedInstallerState()
                         }
                     }
                 }

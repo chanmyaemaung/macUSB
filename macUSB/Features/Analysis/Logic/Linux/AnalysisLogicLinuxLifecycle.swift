@@ -88,6 +88,7 @@ private enum LinuxDistroIconCatalog {
 
 extension AnalysisLogic {
     func forceLinuxManualSelection() {
+        cancelActiveImageAnalysisRun(reason: "Ręczne wymuszenie trybu Linux")
         guard let sourceURL = self.selectedFileUrl else {
             self.logError("Nie można wymusić rozpoznania Linux: brak wybranego pliku.")
             return

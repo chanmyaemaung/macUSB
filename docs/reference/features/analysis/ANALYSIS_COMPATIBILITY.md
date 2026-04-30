@@ -48,6 +48,16 @@ For `.cdr` and `.iso` sources:
 
 This rule applies to both macOS and Linux fallback paths.
 
+## Global Image Analysis Timeout
+
+For `.dmg`, `.iso`, and `.cdr` sources:
+
+- the full image-analysis session is guarded by a global 20-second timeout,
+- if recognition does not complete within 20 seconds, analysis is force-finished as unrecognized (`Nie rozpoznano instalatora`),
+- when timeout is hit, app must force-detach the mounted source image used for analysis (if present),
+- timeout finish keeps existing UI behavior (no new messages/views), and blocks supported-flow routing as for other unrecognized outcomes,
+- delayed callbacks from expired analysis sessions must be ignored and must not overwrite state after timeout.
+
 ## USB Unreadable Target Hint (Non-blocking)
 
 During analysis screen USB target area:
@@ -61,7 +71,10 @@ During analysis screen USB target area:
 Analysis should log:
 - selected source type,
 - detected compatibility family/flags,
-- explicit block reasons (for example mounted image conflict).
+- explicit block reasons (for example mounted image conflict),
+- image-analysis timeout start/finish events for `.dmg`/`.iso`/`.cdr`,
+- timeout-triggered image detach result (success/failure + mount path),
+- ignored stale callbacks when an expired image-analysis session returns results after timeout.
 
 Linux fallback should additionally log:
 

@@ -92,6 +92,9 @@ final class AnalysisLogic: ObservableObject {
     var lastUnreadableUSBDetectionDate: Date = .distantPast
     let unreadableUSBDetectionInterval: TimeInterval = 2.5
     var isUnreadableUSBDetectionRunning: Bool = false
+    let imageAnalysisTimeoutSeconds: TimeInterval = 20
+    var activeImageAnalysisRunID: UUID? = nil
+    var imageAnalysisTimeoutWorkItem: DispatchWorkItem? = nil
 
     var requiredUSBCapacityDisplayValue: String {
         requiredUSBCapacityGB.map(String.init) ?? "--"
@@ -119,5 +122,185 @@ final class AnalysisLogic: ObservableObject {
 
     func stage(_ title: String) {
         AppLogging.stage(title)
+    }
+}
+
+extension AnalysisLogic {
+    func beginImageAnalysisRun(sourceURL: URL) -> UUID {
+        cancelActiveImageAnalysisRun(reason: "Uruchamianie nowej analizy obrazu")
+
+        let runID = UUID()
+        activeImageAnalysisRunID = runID
+
+        let timeoutWorkItem = DispatchWorkItem { [weak self] in
+            self?.handleImageAnalysisTimeout(runID: runID, sourceURL: sourceURL)
+        }
+        imageAnalysisTimeoutWorkItem = timeoutWorkItem
+
+        log("Uruchomiono timeout analizy obrazu: \(Int(imageAnalysisTimeoutSeconds)) s [runID=\(runID.uuidString)]")
+        DispatchQueue.main.asyncAfter(deadline: .now() + imageAnalysisTimeoutSeconds, execute: timeoutWorkItem)
+        return runID
+    }
+
+    @discardableResult
+    func completeImageAnalysisRunIfCurrent(_ runID: UUID, reason: String) -> Bool {
+        guard activeImageAnalysisRunID == runID else { return false }
+        imageAnalysisTimeoutWorkItem?.cancel()
+        imageAnalysisTimeoutWorkItem = nil
+        activeImageAnalysisRunID = nil
+        log("Zakończono analizę obrazu przed timeoutem [runID=\(runID.uuidString)]: \(reason)")
+        return true
+    }
+
+    func isImageAnalysisRunCurrent(_ runID: UUID) -> Bool {
+        activeImageAnalysisRunID == runID
+    }
+
+    func cancelActiveImageAnalysisRun(reason: String) {
+        guard let runID = activeImageAnalysisRunID else {
+            imageAnalysisTimeoutWorkItem?.cancel()
+            imageAnalysisTimeoutWorkItem = nil
+            return
+        }
+
+        imageAnalysisTimeoutWorkItem?.cancel()
+        imageAnalysisTimeoutWorkItem = nil
+        activeImageAnalysisRunID = nil
+        log("Anulowano aktywną sesję analizy obrazu [runID=\(runID.uuidString)]: \(reason)")
+    }
+
+    func logIgnoredStaleImageAnalysisCallback(_ runID: UUID, stage: String) {
+        log("Ignoruję spóźniony wynik analizy obrazu [runID=\(runID.uuidString)] (\(stage)).")
+    }
+
+    func applyUnrecognizedInstallerState(timeoutReason: String? = nil) {
+        if let timeoutReason {
+            logError(timeoutReason)
+        }
+        recognizedVersion = String(localized: "Nie rozpoznano instalatora")
+        requiredUSBCapacityGB = nil
+        sourceAppURL = nil
+        detectedSystemIcon = nil
+        isSystemDetected = false
+        showUSBSection = false
+        showUnsupportedMessage = false
+        resetLinuxDetectionState()
+        isAnalyzing = false
+        log("Analiza zakończona: nie rozpoznano instalatora.")
+        AppLogging.separator()
+    }
+
+    private func handleImageAnalysisTimeout(runID: UUID, sourceURL: URL) {
+        guard activeImageAnalysisRunID == runID else { return }
+
+        imageAnalysisTimeoutWorkItem = nil
+        activeImageAnalysisRunID = nil
+
+        detachMountedImageAfterAnalysisTimeout(sourceURL: sourceURL)
+
+        applyUnrecognizedInstallerState(
+            timeoutReason: "Przekroczono timeout analizy obrazu (\(Int(imageAnalysisTimeoutSeconds)) s): \(sourceURL.lastPathComponent). Anuluję analizowanie i oznaczam obraz jako niewspierany/nierozpoznany."
+        )
+    }
+
+    private func detachMountedImageAfterAnalysisTimeout(sourceURL: URL) {
+        var mountPaths: [String] = []
+
+        if let mountedDMGPath, !mountedDMGPath.isEmpty {
+            mountPaths.append(mountedDMGPath)
+        }
+
+        if let discoveredPath = mountedPathForAttachedSourceImage(sourceURL: sourceURL), !discoveredPath.isEmpty {
+            mountPaths.append(discoveredPath)
+        }
+
+        let uniqueMountPaths = Array(Set(mountPaths)).sorted()
+        guard !uniqueMountPaths.isEmpty else {
+            log("Timeout analizy obrazu: brak aktywnego mount-point do odmontowania dla \(sourceURL.lastPathComponent).")
+            return
+        }
+
+        for mountPath in uniqueMountPaths {
+            let task = Process()
+            task.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
+            task.arguments = ["detach", mountPath, "-force"]
+            let errorPipe = Pipe()
+            task.standardError = errorPipe
+
+            do {
+                try task.run()
+                task.waitUntilExit()
+            } catch {
+                logError("Timeout analizy obrazu: nie udało się uruchomić odmontowania \(mountPath): \(error.localizedDescription)")
+                continue
+            }
+
+            if task.terminationStatus == 0 {
+                log("Timeout analizy obrazu: odmontowano obraz \(mountPath).")
+            } else {
+                let stderrText = String(decoding: errorPipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
+                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                if stderrText.isEmpty {
+                    logError("Timeout analizy obrazu: odmontowanie nie powiodło się dla \(mountPath) (kod \(task.terminationStatus)).")
+                } else {
+                    logError("Timeout analizy obrazu: odmontowanie nie powiodło się dla \(mountPath): \(stderrText)")
+                }
+            }
+        }
+
+        if let currentMountedPath = mountedDMGPath,
+           uniqueMountPaths.contains(currentMountedPath) {
+            mountedDMGPath = nil
+        }
+    }
+
+    private func mountedPathForAttachedSourceImage(sourceURL: URL) -> String? {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/bin/hdiutil")
+        task.arguments = ["info", "-plist"]
+        let outputPipe = Pipe()
+        let errorPipe = Pipe()
+        task.standardOutput = outputPipe
+        task.standardError = errorPipe
+
+        do {
+            try task.run()
+        } catch {
+            logError("Timeout analizy obrazu: nie udało się uruchomić hdiutil info: \(error.localizedDescription)")
+            return nil
+        }
+        task.waitUntilExit()
+
+        let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+        guard task.terminationStatus == 0 else {
+            let stderrText = String(decoding: errorData, as: UTF8.self)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            if stderrText.isEmpty {
+                logError("Timeout analizy obrazu: hdiutil info zakończył się błędem (kod \(task.terminationStatus)).")
+            } else {
+                logError("Timeout analizy obrazu: hdiutil info zakończył się błędem: \(stderrText)")
+            }
+            return nil
+        }
+
+        guard let plist = try? PropertyListSerialization.propertyList(from: outputData, options: [], format: nil) as? [String: Any],
+              let images = plist["images"] as? [[String: Any]] else {
+            return nil
+        }
+
+        let sourcePath = URL(fileURLWithPath: sourceURL.path).resolvingSymlinksInPath().standardizedFileURL.path
+        for image in images {
+            guard let imagePath = image["image-path"] as? String else { continue }
+            let normalizedImagePath = URL(fileURLWithPath: imagePath).resolvingSymlinksInPath().standardizedFileURL.path
+            guard normalizedImagePath == sourcePath else { continue }
+            guard let entities = image["system-entities"] as? [[String: Any]],
+                  let mountPoint = entities.compactMap({ $0["mount-point"] as? String }).first else {
+                continue
+            }
+            return mountPoint
+        }
+
+        return nil
     }
 }

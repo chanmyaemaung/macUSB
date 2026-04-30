@@ -3,6 +3,7 @@ import Foundation
 
 extension AnalysisLogic {
     func forceTigerMultiDVDSelection() {
+        cancelActiveImageAnalysisRun(reason: "Ręczne przełączenie na Tiger Multi DVD")
         self.log("Ręcznie wybrano tryb Tiger Multi DVD")
         let fileURL = self.selectedFileUrl
         DispatchQueue.global(qos: .userInitiated).async {
@@ -53,6 +54,7 @@ extension AnalysisLogic {
     }
 
     func resetAll() {
+        cancelActiveImageAnalysisRun(reason: "Pełny reset stanu analizy")
         let oldMount = self.mountedDMGPath
         if let path = oldMount {
             let task = Process()
