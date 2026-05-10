@@ -43,7 +43,8 @@ struct SystemAnalysisView: View {
         // Hide/disable when the selected system is supported (including PPC flow) or analysis not finished.
         let analysisFinished = !logic.isAnalyzing
         let hasAnySelection = !logic.selectedFilePath.isEmpty || logic.selectedFileUrl != nil
-        let isValidSelection = (logic.sourceAppURL != nil) || logic.isPPC || logic.isMavericks || logic.isLinuxDetected
+        let windowsSupportedDetected = logic.isWindowsDetected && logic.isSystemDetected && !logic.showUnsupportedMessage
+        let isValidSelection = (logic.sourceAppURL != nil) || logic.isPPC || logic.isMavericks || logic.isLinuxDetected || windowsSupportedDetected
 
         let unrecognizedBlocking = (!logic.isSystemDetected
                                     && !logic.recognizedVersion.isEmpty
@@ -252,10 +253,14 @@ struct SystemAnalysisView: View {
     }
 
     private var detectedOrUnsupportedView: some View {
-        let isValid = (logic.sourceAppURL != nil) || logic.isPPC || logic.isLinuxDetected
-        let unsupportedText = logic.isUnsupportedSierra
+        let windowsRecognized = logic.isWindowsDetected && !logic.recognizedVersion.isEmpty
+        let windowsSupportedDetected = windowsRecognized && logic.isSystemDetected && !logic.showUnsupportedMessage
+        let isValid = (logic.sourceAppURL != nil) || logic.isPPC || logic.isLinuxDetected || windowsRecognized || windowsSupportedDetected
+        let unsupportedText = logic.isWindowsDetected
+            ? String(localized: "analysis.windows.unsupported_edition.description")
+            : (logic.isUnsupportedSierra
             ? String(localized: "Ta wersja systemu macOS Sierra nie jest wspierana przez aplikację. Potrzebna jest nowsza wersja instalatora.", comment: "Unsupported Sierra (not 12.6.06) message")
-            : String(localized: "Wybrany system nie jest wspierany przez aplikację", comment: "Generic unsupported system message")
+            : String(localized: "Wybrany system nie jest wspierany przez aplikację", comment: "Generic unsupported system message"))
 
         return VStack(alignment: .leading, spacing: MacUSBDesignTokens.bottomBarContentSpacing) {
             StatusCard(tone: isValid ? .success : .error) {
@@ -265,6 +270,21 @@ struct SystemAnalysisView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 32, height: 32)
+                    } else if isValid, logic.isWindowsDetected {
+                        if #available(macOS 11.0, *),
+                           let symbolImage = NSImage(systemSymbolName: logic.windowsFallbackSymbolName, accessibilityDescription: nil) {
+                            Image(nsImage: symbolImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 28, height: 28)
+                                .foregroundColor(.green)
+                                .frame(width: MacUSBDesignTokens.iconColumnWidth)
+                        } else {
+                            Image(systemName: "desktopcomputer")
+                                .font(sectionIconFont)
+                                .foregroundColor(.green)
+                                .frame(width: MacUSBDesignTokens.iconColumnWidth)
+                        }
                     } else if logic.isLinuxDetected {
                         Image(systemName: "desktopcomputer")
                             .font(sectionIconFont)
@@ -313,16 +333,16 @@ struct SystemAnalysisView: View {
                 }
             }
 
-            if !isValid && logic.showUnsupportedMessage {
-                StatusCard(tone: .subtle, density: .compact) {
-                    HStack(alignment: .top, spacing: 10) {
-                        Image(systemName: "exclamationmark.triangle")
+            if logic.showUnsupportedMessage && (!isValid || logic.isWindowsDetected) {
+                StatusCard(tone: logic.isWindowsDetected ? .warning : .subtle, density: .compact) {
+                    HStack(alignment: .center, spacing: 10) {
+                        Image(systemName: logic.isWindowsDetected ? "exclamationmark.triangle.fill" : "exclamationmark.triangle")
                             .font(sectionIconFont)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(logic.isWindowsDetected ? .orange : .secondary)
                             .frame(width: MacUSBDesignTokens.iconColumnWidth)
                         Text(unsupportedText)
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(logic.isWindowsDetected ? .orange : .secondary)
                         Spacer()
                     }
                 }
@@ -416,7 +436,7 @@ struct SystemAnalysisView: View {
                             }
                         }
 
-                        Spacer().frame(height: 12)
+                        Spacer().frame(height: logic.showUnsupportedMessage ? 4 : 12)
                         usbSelectionSection
                             .id("usbSection")
                     }

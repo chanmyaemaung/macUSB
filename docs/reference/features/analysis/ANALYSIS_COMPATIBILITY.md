@@ -3,16 +3,30 @@
 Current implementation scope includes:
 
 - macOS analysis path (primary, workflow-driving),
+- Windows image recognition fallback path (between macOS and Linux),
 - Linux image recognition fallback path with USB-creation handoff.
 
 Linux-specific behavior details are documented in:
 
 - `docs/reference/features/analysis/LINUX_ANALYSIS_FLOW.md`
 
+Windows-specific behavior details are documented in:
+
+- `docs/reference/features/analysis/WINDOWS_ANALYSIS_FLOW.md`
+
 ## Detection Source of Truth
 
 Analysis flags are the source of truth for workflow branch selection.
 Unsupported detection outcomes must be clearly surfaced and must block unsupported paths.
+
+For Windows fallback:
+
+- fallback entry is limited to `.iso` sources,
+- fallback runs only when macOS installer metadata is not detected from mounted image,
+- Windows detection uses mounted-image metadata only (no weak volume-label fallback),
+- recognized Windows result may be marked unsupported by support gate,
+- support gate for current app workflow is: **Windows family >= 8 AND EFI markers present**,
+- even for supported Windows detection, current workflow stage keeps proceed-to-install blocked.
 
 For Linux fallback:
 
@@ -41,6 +55,14 @@ Linux fallback routing includes:
 - Linux with unknown distro (`Linux - nierozpoznana dystrybucja`).
 - manually forced Linux (`Linux`).
 
+Windows fallback routing includes:
+
+- recognized Windows families: `XP`, `Vista`, `7`, `8`, `8.1`, `10`, `11`,
+- optional Service Pack extraction when deterministically available (for legacy families),
+- architecture normalization to `x86` / `ARM`,
+- unsupported result for `XP` / `Vista` / `7` regardless of EFI artifacts,
+- unsupported result for any family missing required EFI markers.
+
 ## Special Blocking Rule
 
 For `.cdr` and `.iso` sources:
@@ -48,6 +70,7 @@ For `.cdr` and `.iso` sources:
 - analysis must stop and instruct user to unmount and retry.
 
 This rule applies to macOS image analysis and additionally protects Linux fallback entry for `.iso`.
+It also applies to Windows fallback entry for `.iso`.
 
 ## Global Image Analysis Timeout
 
@@ -96,6 +119,13 @@ Linux fallback should additionally log:
 - archive-reader diagnostics relevant to bounded execution (`bsdtar` timeout/errors),
 - install handoff readiness (`linuxSourceURL` present, capacity computed).
 - manual-force diagnostics when Linux is forced from menu.
+
+Windows fallback should additionally log:
+
+- fallback transition from macOS detection to Windows detection,
+- parsed Windows details (`family`, `service_pack`, `arch`, `isARM`),
+- support gate decision (`is_supported`, `support_reason`, `has_efi`),
+- evidence summary used for recognition.
 
 ## Update Trigger
 

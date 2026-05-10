@@ -40,6 +40,12 @@ final class AnalysisLogic: ObservableObject {
     @Published var isLinuxARM: Bool = false
     @Published var linuxDisplayName: String? = nil
     @Published var linuxSourceURL: URL? = nil
+    @Published var isWindowsDetected: Bool = false
+    @Published var windowsFamily: WindowsFamily? = nil
+    @Published var windowsServicePack: String? = nil
+    @Published var windowsArchitecture: WindowsArchitecture? = nil
+    @Published var isWindowsARM: Bool = false
+    @Published var windowsHasEFI: Bool = false
 
     @Published var availableDrives: [USBDrive] = []
     @Published var hasUnreadableExternalUSBMedia: Bool = false
@@ -244,6 +250,7 @@ extension AnalysisLogic {
         showUSBSection = false
         showUnsupportedMessage = false
         resetLinuxDetectionState()
+        resetWindowsDetectionState()
         isAnalyzing = false
         log("Analiza zakończona: nie rozpoznano instalatora.")
         AppLogging.separator()

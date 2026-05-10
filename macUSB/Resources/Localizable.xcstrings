@@ -34735,6 +34735,89 @@
         }
       }
     },
+    "analysis.windows.unsupported_edition.description" : {
+      "comment" : "Unsupported Windows edition message",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die erkannte Windows-Edition wird nicht unterstützt. Unterstützt werden nur Windows-8- oder neuere Installationsmedien mit EFI-Dateien."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The detected Windows edition is not supported. Only Windows 8 or later installers that include EFI files are supported."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La edición de Windows detectada no es compatible. Solo se admiten instaladores de Windows 8 o posterior que incluyan archivos EFI."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’édition de Windows détectée n’est pas prise en charge. Seuls les programmes d’installation de Windows 8 ou version ultérieure contenant des fichiers EFI sont pris en charge."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’edizione di Windows rilevata non è supportata. Sono supportati solo i programmi di installazione di Windows 8 o versioni successive che includono file EFI."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "検出された Windows エディションはサポートされていません。EFI ファイルを含む Windows 8 以降のインストーラのみサポートされています。"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wykryta edycja systemu Windows nie jest wspierana. Wspierane są tylko instalatory Windows 8 lub nowsze, zawierające pliki EFI."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A edição do Windows detectada não é compatível. Somente instaladores do Windows 8 ou posterior que incluam arquivos EFI são compatíveis."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обнаруженная редакция Windows не поддерживается. Поддерживаются только установщики Windows 8 и новее, содержащие файлы EFI."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algılanan Windows sürümü desteklenmiyor. Yalnızca EFI dosyalarını içeren Windows 8 veya üzeri yükleyiciler desteklenir."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виявлена редакція Windows не підтримується. Підтримуються лише інсталятори Windows 8 або новіших версій, що містять файли EFI."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phiên bản Windows được phát hiện không được hỗ trợ. Chỉ hỗ trợ bộ cài Windows 8 trở lên có chứa tệp EFI."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检测到的 Windows 版本不受支持。仅支持包含 EFI 文件的 Windows 8 及更高版本安装程序。"
+          }
+        }
+      }
+    },
     "Wykryto %@ plików o łącznym rozmiarze %@..." : {
       "localizations" : {
         "de" : {
