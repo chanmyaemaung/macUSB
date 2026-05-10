@@ -105,6 +105,7 @@ extension AnalysisLogic {
             self.isAnalyzing = false
             self.userSkippedAnalysis = true
             self.resetLinuxDetectionState()
+            self.resetWindowsDetectionState()
 
             self.isLinuxDetected = true
             self.isLinuxDistributionRecognized = false
@@ -284,6 +285,7 @@ extension AnalysisLogic {
     }
 
     func applyLinuxDetectionResult(_ result: LinuxDetectionResult, sourceURL: URL, mountedImagePath: String?) {
+        self.resetWindowsDetectionState()
         self.isLinuxDetected = result.isLinux
         self.isLinuxDistributionRecognized = result.isDistributionRecognized
         self.linuxDistro = result.distro

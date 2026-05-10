@@ -49,6 +49,7 @@ extension AnalysisLogic {
         shouldShowAlreadyMountedSourceAlert = false
         requiredUSBCapacityGB = nil
         resetLinuxDetectionState()
+        resetWindowsDetectionState()
 
         let ext = url.pathExtension.lowercased()
         self.log("Wykryto rozszerzenie: \(ext)")
@@ -143,16 +144,25 @@ extension AnalysisLogic {
                             self.requiredUSBCapacityGB = nil
                             self.shouldShowAlreadyMountedSourceAlert = true
                             self.resetLinuxDetectionState()
+                            self.resetWindowsDetectionState()
                             self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Analiza zatrzymana: obraz źródłowy był już zamontowany")
                             AppLogging.separator()
                         } else {
                             if ext == "iso" {
                                 if mountReadTimedOut {
-                                    self.log("Po soft-timeout mountAndReadInfo przechodzę bezpośrednio do Linux fallback (bsdtar).")
+                                    self.log("Po soft-timeout mountAndReadInfo pomijam fallback Windows z mount-path i przechodzę do Linux fallback (bsdtar).")
                                 }
-                                self.captureLinuxAttachSessionIfNeeded(sourceURL: url, reason: "linux_fallback_entry")
+
                                 if let mountedImagePath {
-                                    self.log("Nie rozpoznano instalatora macOS. Przechodzę do procesu rozpoznawania Linuxa (z zamontowanego obrazu).")
+                                    self.log("Nie rozpoznano instalatora macOS. Przechodzę do procesu rozpoznawania Windows (z zamontowanego obrazu).")
+                                    if let windowsResult = self.detectWindows(fromMountPath: mountedImagePath, sourceURL: url) {
+                                        self.applyWindowsDetectionResult(windowsResult, sourceURL: url)
+                                        self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Rozpoznano obraz Windows z zamontowanego źródła")
+                                        return
+                                    }
+
+                                    self.captureLinuxAttachSessionIfNeeded(sourceURL: url, reason: "linux_fallback_entry")
+                                    self.log("Nie rozpoznano instalatora macOS/Windows. Przechodzę do procesu rozpoznawania Linuxa (z zamontowanego obrazu).")
                                     if let linuxResult = self.detectLinux(fromMountPath: mountedImagePath, sourceURL: url) {
                                         self.applyLinuxDetectionResult(linuxResult, sourceURL: url, mountedImagePath: mountedImagePath)
                                         self.completeImageAnalysisRunIfCurrent(analysisRunID, reason: "Rozpoznano obraz Linux z zamontowanego źródła")
@@ -160,7 +170,8 @@ extension AnalysisLogic {
                                     }
                                 }
 
-                                self.log("Nie rozpoznano instalatora macOS. Przechodzę do procesu rozpoznawania Linuxa przez bsdtar (bez montowania).")
+                                self.captureLinuxAttachSessionIfNeeded(sourceURL: url, reason: "linux_fallback_entry")
+                                self.log("Nie rozpoznano instalatora macOS/Windows. Przechodzę do procesu rozpoznawania Linuxa przez bsdtar (bez montowania).")
                                 self.isAnalyzing = true
                                 DispatchQueue.global(qos: .userInitiated).async {
                                     let linuxResult = self.detectLinuxFromArchive(sourceURL: url)
