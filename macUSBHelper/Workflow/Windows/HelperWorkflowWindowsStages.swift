@@ -119,6 +119,11 @@ extension HelperWorkflowExecutor {
         }
 
         let rsyncPlan = resolveRsyncExecutionPlan()
+        windowsRsyncProgressMode = rsyncPlan.mode
+        windowsLegacyRsyncCurrentFilePath = nil
+        windowsLegacyRsyncCurrentFileSizeBytes = 0
+        windowsLegacyRsyncCompletedBytes = 0
+        windowsLegacyRsyncToCheckUsesProcessedCount = nil
         var createArguments = rsyncPlan.arguments
 
         if windowsShouldSplitWim, let relativeWimPath = windowsInstallWimRelativePath {
@@ -326,6 +331,10 @@ extension HelperWorkflowExecutor {
             process.executableURL = URL(fileURLWithPath: executable)
             process.arguments = arguments
         }
+        var env = ProcessInfo.processInfo.environment
+        env["LC_ALL"] = "C"
+        env["LANG"] = "C"
+        process.environment = env
 
         let pipe = Pipe()
         process.standardOutput = pipe

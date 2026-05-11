@@ -26,6 +26,11 @@ final class HelperWorkflowExecutor {
     var windowsWimlibExecutablePath: String?
     var windowsPreparedTargetVolumePath: String?
     var windowsCopyStageTotalBytes: Int64?
+    var windowsRsyncProgressMode: String?
+    var windowsLegacyRsyncCurrentFilePath: String?
+    var windowsLegacyRsyncCurrentFileSizeBytes: Int64 = 0
+    var windowsLegacyRsyncCompletedBytes: Int64 = 0
+    var windowsLegacyRsyncToCheckUsesProcessedCount: Bool?
     var currentStageKey: String?
 
     init(request: HelperWorkflowRequestPayload, workflowID: String, sendEvent: @escaping (HelperProgressEventPayload) -> Void) {
