@@ -354,11 +354,7 @@ extension UniversalInstallationView {
                                     helperTransferMonitoringTargetVolumePath = workflowRequest.targetVolumePath
                                     helperTransferMonitoringLastKnownPath = workflowRequest.targetVolumePath
                                     MenuState.shared.updateDebugCopiedData(bytes: 0)
-                                    if isWindowsWorkflow {
-                                        helperWriteSpeedText = "- MB/s"
-                                    } else {
-                                        startHelperWriteSpeedMonitoring(for: drive)
-                                    }
+                                    startHelperWriteSpeedMonitoring(for: drive)
                                     log("Uruchomiono helper workflow: \(workflowID)")
                                 }
                             )
@@ -634,6 +630,11 @@ extension UniversalInstallationView {
             : helperTransferMonitoringWholeDiskBSDName
 
         sampleHelperWriteSpeed(for: monitoredWholeDisk)
+        // Windows uses helper-reported determinate progress for copy/split stages,
+        // so skip speed-based transfer fallback updates that could overwrite it.
+        if isWindowsWorkflow {
+            return
+        }
         sampleHelperTransferProgress(stageKey: helperCurrentStageKey)
     }
 

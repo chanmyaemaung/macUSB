@@ -25,8 +25,8 @@ Linux raw-copy stages:
 Windows workflow stages:
 - `windows_prepare_source` — source ISO validation, hidden mount, FAT32-limit scan, WIM split decision (indeterminate stage),
 - `windows_prepare_target` — target USB unmount with retry/force prompt path and FAT32/MBR formatting (indeterminate stage),
-- `windows_create_media` — ISO file copy to USB (`rsync`) with determinate progress,
-- `windows_split_wim` — conditional `install.wim` split via `wimlib-imagex` with determinate progress (stage appears only when needed),
+- `windows_create_media` — ISO file copy to USB (`rsync`) with determinate progress + write speed,
+- `windows_split_wim` — conditional `install.wim` split via `wimlib-imagex` with determinate progress + write speed (stage appears only when needed),
 - `windows_verify_media` — boot file and structure validation (`boot.wim`, UEFI markers, `install.wim`/`install.swm`) (indeterminate stage),
 - `windows_cleanup_temp` — deterministic cleanup of temp files and helper-managed hidden image mount,
 - `finalize` — terminal state transition.

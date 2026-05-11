@@ -63,7 +63,7 @@ enum CreationProgressWindowsMapping {
     }
 
     static func showsWriteSpeed(for stageKey: String) -> Bool {
-        false
+        stageKey == createStageKey || stageKey == splitWimStageKey
     }
 
     static func isTransferStage(_ stageKey: String) -> Bool {
