@@ -147,6 +147,10 @@ When Windows fallback runs, logs include:
 - source file size in bytes with resolution source when available,
 - selected USB threshold in GB,
 - explicit fallback log when source size is unavailable.
+- Windows toolchain presence probe:
+  - `brew=true|false`,
+  - `wimlib=true|false`,
+  - resolved executable paths (`not_found` when unavailable).
 
 ## Non-goals
 

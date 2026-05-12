@@ -159,6 +159,7 @@
 				Features/Analysis/Logic/Windows/AnalysisLogicWindowsDetection.swift,
 				Features/Analysis/Logic/Windows/AnalysisLogicWindowsLifecycle.swift,
 				Features/Analysis/Logic/Windows/AnalysisLogicWindowsMetadata.swift,
+				Features/Analysis/Logic/Windows/AnalysisLogicWindowsToolchainProbe.swift,
 				Features/Analysis/Logic/Windows/AnalysisLogicWindowsTypes.swift,
 				Features/Analysis/SystemAnalysisView.swift,
 				Features/Downloader/Logic/Assembly/MacOSAssemblyFileUtils.swift,

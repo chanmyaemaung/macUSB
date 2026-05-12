@@ -41,6 +41,11 @@ Linux summary screen (`UniversalInstallationView`) should show an informational 
 - card uses accent tone (`.active`) with SF Symbol `info.circle.fill`,
 - copy explains that macOS may show an unreadable-disk dialog and user should choose `Ignore`.
 
+Windows summary screen (`UniversalInstallationView`) should show an informational card before the process-stages section:
+- card is visible only for Windows workflow,
+- card uses accent tone (`.active`) with SF Symbol `info.circle.fill`,
+- copy clearly states that prepared media is UEFI-only and that Legacy BIOS boot is not supported.
+
 ## Helper and Privilege Invariants
 
 - Privileged operations must run through helper (`SMAppService + XPC`).

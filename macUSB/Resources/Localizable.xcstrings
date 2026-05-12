@@ -14215,79 +14215,243 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Das ausgewählte USB-Laufwerk wird ausgehängt und als MBR (FAT32) formatiert"
+            "value": "• Das USB-Laufwerk wird als MBR (MS-DOS/FAT32) formatiert"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• The selected USB drive will be unmounted and formatted as MBR (FAT32)"
+            "value": "• The USB drive will be formatted as MBR (MS-DOS/FAT32)"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• La unidad USB seleccionada se desmontará y se formateará como MBR (FAT32)"
+            "value": "• La unidad USB se formateará como MBR (MS-DOS/FAT32)"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Le disque USB sélectionné sera démonté et formaté en MBR (FAT32)"
+            "value": "• Le disque USB sera formaté en MBR (MS-DOS/FAT32)"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "• L'unità USB selezionata verrà smontata e formattata come MBR (FAT32)"
+            "value": "• L’unità USB sarà formattata come MBR (MS-DOS/FAT32)"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "• 選択したUSBドライブをアンマウントし、MBR（FAT32）としてフォーマットします"
+            "value": "• USBドライブは MBR（MS-DOS/FAT32）としてフォーマットされます"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Wybrany nośnik USB zostanie odmontowany i sformatowany w schemacie MBR (FAT32)"
+            "value": "• Nośnik USB zostanie sformatowany jako MBR (MS-DOS/FAT32)"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "• A unidade USB selecionada será desmontada e formatada como MBR (FAT32)"
+            "value": "• A unidade USB será formatada como MBR (MS-DOS/FAT32)"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Выбранный USB-накопитель будет размонтирован и отформатирован как MBR (FAT32)"
+            "value": "• USB-накопитель будет отформатирован как MBR (MS-DOS/FAT32)"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Seçilen USB sürücüsü çıkarılacak ve MBR (FAT32) olarak biçimlendirilecek"
+            "value": "• USB sürücüsü MBR (MS-DOS/FAT32) olarak biçimlendirilecek"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Вибраний USB-накопичувач буде відмонтовано та відформатовано як MBR (FAT32)"
+            "value": "• USB-накопичувач буде відформатовано як MBR (MS-DOS/FAT32)"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Ổ USB đã chọn sẽ được ngắt kết nối và định dạng theo MBR (FAT32)"
+            "value": "• Ổ USB sẽ được định dạng thành MBR (MS-DOS/FAT32)"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "• 所选 USB 驱动器将被卸载并格式化为 MBR (FAT32)"
+            "value": "• USB 驱动器将被格式化为 MBR（MS-DOS/FAT32）"
+          }
+        }
+      }
+    },
+    "installation.summary.windows.uefi_only.body": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dieses USB-Medium wird ausschließlich für den UEFI-Start vorbereitet. Der Start im Legacy-BIOS-Modus wird nicht unterstützt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This USB media will be prepared for UEFI boot only. Legacy BIOS boot is not supported."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Este medio USB se preparará solo para arranque UEFI. El arranque en modo BIOS heredado no es compatible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ce support USB sera préparé uniquement pour un démarrage UEFI. Le démarrage en mode BIOS hérité n’est pas pris en charge."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Questo supporto USB sarà preparato solo per l’avvio UEFI. L’avvio in modalità BIOS legacy non è supportato."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "このUSBメディアはUEFI起動専用として準備されます。Legacy BIOSでの起動には対応していません。"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ten nośnik USB zostanie przygotowany wyłącznie do uruchamiania w trybie UEFI. Uruchamianie w trybie Legacy BIOS nie jest obsługiwane."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta mídia USB será preparada apenas para inicialização UEFI. A inicialização no modo BIOS legado não é compatível."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Этот USB-носитель будет подготовлен только для загрузки в режиме UEFI. Загрузка в режиме Legacy BIOS не поддерживается."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bu USB ortamı yalnızca UEFI önyükleme için hazırlanacaktır. Legacy BIOS modunda önyükleme desteklenmez."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цей USB-носій буде підготовлено лише для завантаження в режимі UEFI. Завантаження в режимі Legacy BIOS не підтримується."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phương tiện USB này sẽ chỉ được chuẩn bị cho khởi động UEFI. Không hỗ trợ khởi động ở chế độ Legacy BIOS."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此 USB 介质将仅用于 UEFI 启动。不支持 Legacy BIOS 模式启动。"
+          }
+        }
+      }
+    },
+    "installation.summary.windows.uefi_only.title": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UEFI-kompatibles Medium"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UEFI-Compatible Media"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medio compatible con UEFI"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Support compatible UEFI"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supporto compatibile con UEFI"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UEFI対応メディア"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nośnik zgodny z UEFI"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mídia compatível com UEFI"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Носитель с поддержкой UEFI"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "UEFI uyumlu ortam"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Носій із підтримкою UEFI"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Phương tiện tương thích UEFI"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "兼容 UEFI 的介质"
           }
         }
       }

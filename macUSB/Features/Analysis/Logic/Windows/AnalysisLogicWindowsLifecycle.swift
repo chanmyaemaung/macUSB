@@ -76,6 +76,15 @@ extension AnalysisLogic {
         self.isPPC = false
         self.legacyArchInfo = nil
         self.userSkippedAnalysis = false
+
+        let windowsToolchainPresence = detectWindowsToolchainPresence()
+        self.log(
+            "Windows toolchain presence: brew=\(windowsToolchainPresence.hasHomebrew), wimlib=\(windowsToolchainPresence.hasWimlib)"
+        )
+        self.log(
+            "Windows toolchain paths: brew=\(windowsToolchainPresence.homebrewPath ?? "not_found"), wimlib=\(windowsToolchainPresence.wimlibPath ?? "not_found")"
+        )
+
         if result.isSupported {
             let capacityResolution = resolveRequiredUSBCapacityForImageSource(sourceURL)
             self.requiredUSBCapacityGB = capacityResolution.requiredCapacityGB

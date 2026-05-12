@@ -196,6 +196,27 @@ struct UniversalInstallationView: View {
                         .transition(.opacity)
                     }
 
+                    if isWindowsWorkflow {
+                        StatusCard(tone: .active, density: .compact) {
+                            HStack(alignment: .center) {
+                                Image(systemName: "info.circle.fill")
+                                    .font(sectionIconFont)
+                                    .foregroundColor(.accentColor)
+                                    .frame(width: MacUSBDesignTokens.iconColumnWidth)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(String(localized: "installation.summary.windows.uefi_only.title"))
+                                        .font(.headline)
+                                        .foregroundColor(.accentColor)
+                                    Text(String(localized: "installation.summary.windows.uefi_only.body"))
+                                        .font(.subheadline)
+                                        .foregroundColor(.accentColor)
+                                }
+                                Spacer()
+                            }
+                        }
+                        .transition(.opacity)
+                    }
+
                     if shouldShowRequiredPermissionsWarning {
                         StatusCard(tone: .warning, density: .compact) {
                             HStack(alignment: .center) {
