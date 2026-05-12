@@ -140,6 +140,7 @@
 				Features/Analysis/AnalysisSelectionHandoff.swift,
 				Features/Analysis/Logic/AnalysisLogicAnalysisFlow.swift,
 				Features/Analysis/Logic/AnalysisLogicFileSelection.swift,
+				Features/Analysis/Logic/AnalysisLogicSourceCapacityPolicy.swift,
 				Features/Analysis/Logic/AnalysisLogicUsbDrives.swift,
 				Features/Analysis/Logic/Linux/AnalysisLogicLinuxArchitecture.swift,
 				Features/Analysis/Logic/Linux/AnalysisLogicLinuxArchiveReader.swift,
@@ -202,11 +203,11 @@
 				Features/Installation/Linux/CreatorLinuxUnmountRecoveryLogic.swift,
 				Features/Installation/Linux/LinuxInstallationFlowContext.swift,
 				Features/Installation/Linux/LinuxWorkflowErrorPresentation.swift,
+				Features/Installation/UniversalInstallationView.swift,
 				Features/Installation/Windows/CreationProgressWindowsMapping.swift,
 				Features/Installation/Windows/CreatorWindowsHelperLogic.swift,
 				Features/Installation/Windows/CreatorWindowsLabelLogic.swift,
 				Features/Installation/Windows/CreatorWindowsUnmountRecoveryLogic.swift,
-				Features/Installation/UniversalInstallationView.swift,
 				Features/Welcome/AppBranding.swift,
 				Features/Welcome/WelcomeView.swift,
 				Resources/Assets.xcassets,
@@ -233,6 +234,7 @@
 				Shared/Localization/HelperWorkflowLocalizationKeys.swift,
 				Shared/Models/Models.swift,
 				Shared/Services/FullDiskAccessPermissionManager.swift,
+				Shared/Services/InstallerSourceImageUnmountRegistry.swift,
 				Shared/Services/Helper/HelperIPC.swift,
 				Shared/Services/Helper/HelperService/HelperServiceBootstrap.swift,
 				Shared/Services/Helper/HelperService/HelperServiceDiagnostics.swift,
@@ -303,11 +305,11 @@
 				Features/Installation/Linux/CreatorLinuxUnmountRecoveryLogic.swift,
 				Features/Installation/Linux/LinuxInstallationFlowContext.swift,
 				Features/Installation/Linux/LinuxWorkflowErrorPresentation.swift,
+				Features/Installation/UniversalInstallationView.swift,
 				Features/Installation/Windows/CreationProgressWindowsMapping.swift,
 				Features/Installation/Windows/CreatorWindowsHelperLogic.swift,
 				Features/Installation/Windows/CreatorWindowsLabelLogic.swift,
 				Features/Installation/Windows/CreatorWindowsUnmountRecoveryLogic.swift,
-				Features/Installation/UniversalInstallationView.swift,
 				Features/Welcome/AppBranding.swift,
 				Features/Welcome/WelcomeView.swift,
 				Resources/Assets.xcassets,
@@ -315,6 +317,7 @@
 				Shared/Localization/HelperWorkflowLocalizationKeys.swift,
 				Shared/Models/Models.swift,
 				Shared/Services/FullDiskAccessPermissionManager.swift,
+				Shared/Services/InstallerSourceImageUnmountRegistry.swift,
 				Shared/Services/Helper/HelperIPC.swift,
 				Shared/Services/Helper/HelperService/HelperServiceBootstrap.swift,
 				Shared/Services/Helper/HelperService/HelperServiceDiagnostics.swift,
@@ -859,7 +862,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-					ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				AUTOMATION_APPLE_EVENTS = YES;
@@ -915,7 +918,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
-					ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				AUTOMATION_APPLE_EVENTS = YES;

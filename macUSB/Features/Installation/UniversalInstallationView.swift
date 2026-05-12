@@ -251,9 +251,9 @@ struct UniversalInstallationView: View {
                                         Text("• Wybrany nośnik USB zostanie odmontowany")
                                         Text("• Obraz Linux zostanie zapisany na nośniku USB")
                                     } else if isWindowsWorkflow {
-                                        Text("• Obraz Windows zostanie zweryfikowany i przygotowany do kopiowania")
-                                        Text("• Wybrany nośnik USB zostanie odmontowany i sformatowany do MBR/FAT32")
-                                        Text("• Pliki instalacyjne Windows zostaną skopiowane i zweryfikowane")
+                                        Text("installation.summary.process.windows.prepare_source")
+                                        Text("installation.summary.process.windows.prepare_target")
+                                        Text("installation.summary.process.windows.create_and_verify")
                                     } else if isRestoreLegacy {
                                         Text("• Obraz z systemem zostanie skopiowany i zweryfikowany")
                                         Text("• Nośnik USB zostanie sformatowany")
@@ -269,7 +269,7 @@ struct UniversalInstallationView: View {
                                             Text("• Struktura instalatora zostanie sfinalizowana")
                                         }
                                     }
-                                    Text("• Pliki tymczasowe zostaną automatycznie usunięte")
+                                    Text("installation.summary.process.cleanup_temp")
                                 }
                                 .font(.subheadline).foregroundColor(.secondary)
                             }
@@ -493,6 +493,22 @@ struct UniversalInstallationView: View {
             .hidden()
         )
         .onAppear {
+            if isWindowsWorkflow {
+                InstallerSourceImageUnmountRegistry.shared.registerSourceImage(
+                    path: sourceAppURL.path,
+                    family: .windows,
+                    mountHint: windowsMountedSourcePath,
+                    reason: "installation_summary_on_appear"
+                )
+            }
+            if isLinuxWorkflow {
+                InstallerSourceImageUnmountRegistry.shared.registerSourceImage(
+                    path: sourceAppURL.path,
+                    family: .linux,
+                    mountHint: linuxFlowContext?.mountedImagePath,
+                    reason: "installation_summary_on_appear"
+                )
+            }
             menuState.setDownloaderAccessBlocked(true, reason: downloaderBlockReason)
             AppLogging.separator()
             AppLogging.separator()

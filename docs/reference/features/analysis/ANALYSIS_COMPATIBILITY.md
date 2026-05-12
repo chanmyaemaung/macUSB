@@ -90,6 +90,12 @@ For `.dmg`, `.iso`, and `.cdr` sources:
 - timeout finish keeps existing UI behavior (no new messages/views), and blocks supported-flow routing as for other unrecognized outcomes,
 - delayed callbacks from expired analysis sessions must be ignored and must not overwrite state after timeout.
 
+Global app-termination cleanup invariant for ISO analysis:
+
+- when analysis touches `.iso` source, app registers source-image path for centralized exit cleanup,
+- on app termination, centralized cleanup force-detaches tracked Linux/Windows source-image entities (by `image-path` match from `hdiutil info -plist`),
+- this termination cleanup runs even if user exits during analysis before workflow start.
+
 For Linux fallback on `.iso`:
 
 - cleanup scope includes all image entities captured from `hdiutil info -plist` for the selected `image-path`,

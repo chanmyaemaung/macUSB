@@ -128,6 +128,14 @@ Current workflow gating:
   - desktop uses `Windows 8 + EFI` requirement wording,
   - server uses `Windows Server 2012 + EFI` requirement wording.
 
+Required USB capacity is computed from selected Windows source file size:
+
+- source size `<= 6_000_000_000` bytes -> `8 GB`,
+- source size `> 6_000_000_000` and `<= 14_000_000_000` bytes -> `16 GB`,
+- source size `> 14_000_000_000` bytes -> `32 GB`.
+
+If source size cannot be resolved from file metadata, fallback capacity is `16 GB`.
+
 ## Logging Contract
 
 When Windows fallback runs, logs include:
@@ -136,6 +144,9 @@ When Windows fallback runs, logs include:
 - parsed details (`family`, `service_pack`, `arch`, `isARM`),
 - support gate summary (`is_supported`, `support_reason`, `has_efi`),
 - evidence list used for classification.
+- source file size in bytes with resolution source when available,
+- selected USB threshold in GB,
+- explicit fallback log when source size is unavailable.
 
 ## Non-goals
 
