@@ -14959,79 +14959,79 @@
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dieses Windows-Image erfordert die Aufteilung der Datei install.wim Um mit der Erstellung des USB-Mediums zu beginnen, installieren Sie wimlib und prüfen Sie dann erneut"
+            "value": "Dieses Windows-Image erfordert die Aufteilung der Datei install.wim. Um mit der Erstellung des USB-Mediums zu beginnen, installieren Sie wimlib und prüfen Sie dann erneut"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This Windows image requires splitting the install.wim file To start creating the USB installer, install wimlib and then check again"
+            "value": "This Windows image requires splitting the install.wim file. To start creating the USB installer, install wimlib and then check again"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta imagen de Windows requiere dividir el archivo install.wim Para iniciar la creación del instalador USB, instala wimlib y vuelve a comprobarlo"
+            "value": "Esta imagen de Windows requiere dividir el archivo install.wim. Para iniciar la creación del instalador USB, instala wimlib y vuelve a comprobarlo"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cette image Windows nécessite la division du fichier install.wim Pour commencer la création du support USB, installez wimlib puis vérifiez à nouveau"
+            "value": "Cette image Windows nécessite la division du fichier install.wim. Pour commencer la création du support USB, installez wimlib puis vérifiez à nouveau"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Questa immagine di Windows richiede la suddivisione del file install.wim Per avviare la creazione del supporto USB, installa wimlib e verifica di nuovo"
+            "value": "Questa immagine di Windows richiede la suddivisione del file install.wim. Per avviare la creazione del supporto USB, installa wimlib e verifica di nuovo"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "この Windows イメージでは install.wim ファイルの分割が必要です USB インストーラの作成を開始するには wimlib をインストールしてから再確認してください"
+            "value": "この Windows イメージでは install.wim ファイルの分割が必要です。USB インストーラの作成を開始するには wimlib をインストールしてから再確認してください"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ten obraz Windows wymaga podziału pliku install.wim Aby rozpocząć tworzenie nośnika USB, zainstaluj wimlib, a następnie sprawdź ponownie"
+            "value": "Ten obraz Windows wymaga podziału pliku install.wim. Aby rozpocząć tworzenie nośnika USB, zainstaluj wimlib, a następnie sprawdź ponownie"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Esta imagem do Windows exige a divisão do arquivo install.wim Para iniciar a criação da mídia USB, instale o wimlib e verifique novamente"
+            "value": "Esta imagem do Windows exige a divisão do arquivo install.wim. Para iniciar a criação da mídia USB, instale o wimlib e verifique novamente"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Этот образ Windows требует разделения файла install.wim Чтобы начать создание USB-носителя, установите wimlib и проверьте снова"
+            "value": "Этот образ Windows требует разделения файла install.wim. Чтобы начать создание USB-носителя, установите wimlib и проверьте снова"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Bu Windows imajı install.wim dosyasının bölünmesini gerektirir USB yükleyici oluşturmayı başlatmak için wimlib kurun ve yeniden denetleyin"
+            "value": "Bu Windows imajı install.wim dosyasının bölünmesini gerektirir. USB yükleyici oluşturmayı başlatmak için wimlib kurun ve yeniden denetleyin"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "translated",
-            "value": "Цей образ Windows потребує поділу файлу install.wim Щоб почати створення USB-носія, встановіть wimlib і перевірте ще раз"
+            "value": "Цей образ Windows потребує поділу файлу install.wim. Щоб почати створення USB-носія, встановіть wimlib і перевірте ще раз"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ảnh Windows này yêu cầu tách tệp install.wim Để bắt đầu tạo bộ cài USB, hãy cài đặt wimlib rồi kiểm tra lại"
+            "value": "Ảnh Windows này yêu cầu tách tệp install.wim. Để bắt đầu tạo bộ cài USB, hãy cài đặt wimlib rồi kiểm tra lại"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "此 Windows 镜像需要拆分 install.wim 文件 要开始创建 USB 安装介质，请安装 wimlib 后重新检查"
+            "value": "此 Windows 镜像需要拆分 install.wim 文件。要开始创建 USB 安装介质，请安装 wimlib 后重新检查"
           }
         }
       }
@@ -36410,7 +36410,82 @@
         }
       }
     },
-    "Wybrany nośnik jest używany przez inną aplikację. Aby kontynuować tworzenie nośnika Windows, macUSB może wymusić odmontowanie urządzenia. Niezapisane dane na tym nośniku mogą zostać utracone. Czy chcesz wymusić odmontowanie?": {},
+    "Wybrany nośnik jest używany przez inną aplikację. Aby kontynuować tworzenie nośnika Windows, macUSB może wymusić odmontowanie urządzenia. Niezapisane dane na tym nośniku mogą zostać utracone. Czy chcesz wymusić odmontowanie?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das ausgewählte Laufwerk wird von einer anderen App verwendet. Um die Erstellung des Windows-Startmediums fortzusetzen, kann macUSB das Gerät zwangsweise aushängen. Nicht gespeicherte Daten auf diesem Laufwerk können verloren gehen. Möchten Sie das Aushängen erzwingen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected drive is being used by another app. To continue creating Windows boot media, macUSB can forcibly unmount the device. Unsaved data on this drive may be lost. Do you want to forcibly unmount it?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La unidad seleccionada está siendo utilizada por otra app. Para continuar con la creación del medio de arranque de Windows, macUSB puede forzar el desmontaje del dispositivo. Los datos no guardados en esta unidad podrían perderse. ¿Quieres forzar el desmontaje?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le disque sélectionné est utilisé par une autre app. Pour poursuivre la création du support de démarrage Windows, macUSB peut forcer le démontage de l’appareil. Les données non enregistrées sur ce disque peuvent être perdues. Voulez-vous forcer le démontage ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’unità selezionata è in uso da un’altra app. Per continuare la creazione del supporto di avvio Windows, macUSB può forzare lo smontaggio del dispositivo. I dati non salvati su questa unità potrebbero andare persi. Vuoi forzare lo smontaggio?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択したドライブは別のアプリで使用中です。Windows 起動メディアの作成を続行するために、macUSB はデバイスを強制的にアンマウントできます。このドライブ上の未保存データは失われる可能性があります。強制アンマウントしますか？"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A unidade selecionada está sendo usada por outro app. Para continuar criando a mídia de inicialização do Windows, o macUSB pode forçar a desmontagem do dispositivo. Dados não salvos nessa unidade podem ser perdidos. Deseja forçar a desmontagem?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбранный носитель используется другим приложением. Чтобы продолжить создание загрузочного носителя Windows, macUSB может принудительно отмонтировать устройство. Несохранённые данные на этом носителе могут быть потеряны. Принудительно отмонтировать?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen sürücü başka bir uygulama tarafından kullanılıyor. Windows önyükleme ortamı oluşturmayı sürdürmek için macUSB aygıtı zorla ayırabilir. Bu sürücüdeki kaydedilmemiş veriler kaybolabilir. Zorla ayırmak istiyor musunuz?"
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вибраний носій використовується іншою програмою. Щоб продовжити створення завантажувального носія Windows, macUSB може примусово відмонтувати пристрій. Незбережені дані на цьому носії можуть бути втрачені. Примусово відмонтувати?"
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ổ đã chọn đang được ứng dụng khác sử dụng. Để tiếp tục tạo phương tiện khởi động Windows, macUSB có thể buộc tháo gắn kết thiết bị. Dữ liệu chưa lưu trên ổ này có thể bị mất. Bạn có muốn buộc tháo gắn kết không?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所选驱动器正被其他应用使用。若要继续创建 Windows 启动介质，macUSB 可以强制卸载该设备。该驱动器上的未保存数据可能会丢失。要强制卸载吗？"
+          }
+        }
+      }
+    },
     "Wybrany nośnik korzysta z formatu APFS. Aby kontynuować, sformatuj go ręcznie w Narzędziu dyskowym do dowolnego formatu innego niż APFS.": {
       "localizations": {
         "de": {
