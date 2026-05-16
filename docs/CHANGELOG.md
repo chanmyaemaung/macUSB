@@ -2,6 +2,34 @@
 
 ---
 
+## v2.2
+
+macUSB v2.2 adds support for recognizing Windows and Linux `.iso` files and for creating bootable USB media for both systems.
+
+### ADDED: LINUX
+- Added Linux `.iso` recognition with detected distribution name, version, architecture, and distro icon preview in analysis.
+- Added ARM architecture labeling for recognized Linux sources.
+- Added a dedicated process for creating bootable Linux USB media, using a `dd` write path with post-write SHA-256 verification.
+
+### ADDED: WINDOWS
+- Added Windows installer `.iso` recognition for sources from Windows XP and Windows Server 2003 onward, including version and architecture detection.
+- Added ARM architecture labeling for recognized Windows sources.
+- Added a dedicated process for creating bootable Windows USB media (supported for Windows 8 and newer, and Windows Server 2012 and newer), including MBR + FAT32 target formatting, automatic `.wim` splitting into `.swm` parts via `wimlib`, and write verification.
+- Added conditional checks for `wimlib` when the selected Windows installer requires splitting the `.wim` file.
+
+### ADDED: OTHER
+- Added USB eject action on the summary screen.
+- Added basic Touch Bar support showing app branding elements.
+
+### IMPROVEMENTS
+- Improved handling of USB devices that macOS cannot mount; when a macOS source is recognized, analysis now clearly informs the user and guides them to use Disk Utility.
+- Added an automatic 20-second analysis timeout with a clear unrecognized-system status when detection cannot identify the selected source.
+- The app window no longer recenters automatically on launch.
+- Analysis now shows the selected source file name instead of the full file path.
+- Minor UI polish across the flow.
+
+---
+
 ## v2.1.1
 
 This update improves installer reliability for legacy macOS installers and refreshes selected interface copy.

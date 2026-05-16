@@ -49,6 +49,8 @@ Common problems reported across forums and guides include:
 
 **macUSB was built through practical research and validated solutions** developed during repeated troubleshooting of these legacy installer scenarios.
 
+As adoption grew and feedback continued to come in, especially through Reddit discussions, macUSB expanded beyond legacy macOS USB creation. The app now includes a built-in macOS downloader and support for creating bootable Linux and Windows media, evolving into a more complete all-in-one tool for bootable USB workflows on Mac.
+
 ---
 
 ## ✅ Key Features
@@ -58,9 +60,9 @@ Common problems reported across forums and guides include:
 - **One guided flow:** from source selection or download to finished bootable media.
 - **Apple Silicon legacy support:** automatic compatibility handling for older macOS installers during USB creation.
 - **Automatic media prep:** partition and format checks with conversion when required.[^1]
-- **Linux support:** create bootable USB media from supported Linux `.iso` and `.cdr` images.
+- **Linux and Windows support:** create bootable USB media from supported Linux and Windows `.iso` images.
 
-[^1]: APFS-formatted targets are not converted automatically. If the selected drive uses APFS, macUSB requires manual reformatting in Disk Utility before continuing.
+[^1]: When creating macOS bootable media, APFS-formatted targets are not converted automatically. If the selected drive uses APFS, macUSB requires manual reformatting in Disk Utility before continuing.
 
 ---
 
@@ -99,7 +101,7 @@ Common problems reported across forums and guides include:
 
 ---
 
-## 🧭 App Workflow
+## 🧭 Workflow Details
 
 <p align="center">
   Click any screenshot to open full size.
@@ -108,44 +110,25 @@ Common problems reported across forums and guides include:
 <table align="center">
   <tr>
     <td align="center" valign="top">
-      <strong>1. Welcome</strong><br>
-      <a href="docs/readme-assets/app-screens/welcome-view.png">
-        <img src="docs/readme-assets/app-screens/welcome-view.png" alt="Welcome view" width="190">
+      <strong>macOS Installer</strong><br>
+      <a href="docs/readme-assets/app-screens/workflow-macos-details.png">
+        <img src="docs/readme-assets/app-screens/workflow-macos-details.png" alt="macOS installer workflow details" width="190">
       </a><br>
-      <sub>Start the workflow.</sub>
+      <sub>Review the selected macOS version, target USB drive, and creation steps before starting.</sub>
     </td>
     <td align="center" valign="top">
-      <strong>2. Source &amp; Target</strong><br>
-      <a href="docs/readme-assets/app-screens/source-target-configuration.png">
-        <img src="docs/readme-assets/app-screens/source-target-configuration.png" alt="Source and target configuration" width="190">
+      <strong>Linux Image</strong><br>
+      <a href="docs/readme-assets/app-screens/workflow-linux-details.png">
+        <img src="docs/readme-assets/app-screens/workflow-linux-details.png" alt="Linux workflow details" width="190">
       </a><br>
-      <sub>Choose a local source or Downloader, then select USB.</sub>
+      <sub>Linux workflow includes guidance for the expected unreadable-disk prompt shown by macOS during creation.</sub>
     </td>
     <td align="center" valign="top">
-      <strong>3. Operation Details</strong><br>
-      <a href="docs/readme-assets/app-screens/operation-details.png">
-        <img src="docs/readme-assets/app-screens/operation-details.png" alt="Operation details" width="190">
+      <strong>Windows Installer</strong><br>
+      <a href="docs/readme-assets/app-screens/workflow-windows-details.png">
+        <img src="docs/readme-assets/app-screens/workflow-windows-details.png" alt="Windows workflow details" width="190">
       </a><br>
-      <sub>Review the process before starting.</sub>
-    </td>
-  </tr>
-</table>
-
-<table align="center">
-  <tr>
-    <td align="center" valign="top">
-      <strong>4. Creating USB Media</strong><br>
-      <a href="docs/readme-assets/app-screens/creating-usb-media.png">
-        <img src="docs/readme-assets/app-screens/creating-usb-media.png" alt="Creation progress" width="190">
-      </a><br>
-      <sub>Track stage-by-stage progress.</sub>
-    </td>
-    <td align="center" valign="top">
-      <strong>5. Operation Result</strong><br>
-      <a href="docs/readme-assets/app-screens/operation-result.png">
-        <img src="docs/readme-assets/app-screens/operation-result.png" alt="Operation result" width="190">
-      </a><br>
-      <sub>Finish with next-step guidance.</sub>
+      <sub>Windows workflow highlights UEFI-only media preparation and the MBR/FAT32 target format.</sub>
     </td>
   </tr>
 </table>
@@ -197,20 +180,18 @@ Common problems reported across forums and guides include:
 
 ### USB Media
 - **For macOS installers:** at least **16 GB**; **32 GB minimum** for **Sequoia and newer**.
-- **For Linux images:** **8 GB** or more, depending on the size of the selected `.iso` or `.cdr` image.
+- **For Windows/Linux images:** **8 GB** or more, depending on the size of the selected `.iso` image.
 - **Performance:** USB 3.0+ is recommended.
 
 > [!NOTE]
 > External HDD/SSD support is disabled by default on every app launch to improve safety and reduce the risk of accidental target selection. You can enable it in **Options** → **Enable external drives support**.
 
 ### Source Inputs
-Accepted local source formats:
-- `.dmg`
-- `.cdr`
-- `.iso`
-- `.app`
+macUSB can work with either local source files or the built-in macOS Downloader.
 
-Or use the built-in Downloader to fetch macOS installers available from Apple servers.
+Accepted local source formats depend on the system recognized in the selected source:
+- **For macOS:** `.dmg`, `.cdr`, `.iso`, and `.app`
+- **For Windows/Linux:** `.iso`
 
 ---
 
@@ -245,17 +226,40 @@ macOS versions recognized and supported for USB creation:
 
 ---
 
+## 🪟 Windows Support
+
+macUSB recognizes Windows `.iso` images starting from **Windows XP** and **Windows Server 2003**.
+
+Bootable Windows USB creation is currently supported for **Windows 8 and newer** and **Windows Server 2012 and newer**. Prepared media is **UEFI-only**.[^5]
+
+When a Windows image is recognized, macUSB detects the edition automatically. For ARM builds, the architecture is labeled directly in the detected name, for example `Windows 11 (ARM)`.
+
+During Windows USB creation, macUSB formats the selected target as **MBR** with **FAT32**. Because FAT32 has a **4 GB per-file limit**, some modern Windows images may require extra preparation. If `install.wim` exceeds that limit, macUSB automatically splits it into smaller `.swm` parts using `wimlib`.
+
+> [!IMPORTANT]
+> [`wimlib`](https://wimlib.net/) is required only when the selected Windows image needs `install.wim` splitting. It is not bundled with macUSB and must be installed separately by the user. The simplest install path is Homebrew:
+>
+> ```bash
+> brew install wimlib
+> ```
+>
+> macUSB checks automatically whether `wimlib-imagex` is available when this step is required.
+
+[^5]: Booting and installation were tested on a Dell OptiPlex 5040 with UEFI and Secure Boot enabled.
+
+---
+
 ## 🐧 Linux Support
 
-macUSB also supports creating bootable USB media from Linux `.iso` and `.cdr` images.
+macUSB also supports creating bootable USB media from Linux `.iso` images.
 
 When a Linux image is recognized, macUSB detects the distribution, version, and architecture automatically. ARM builds are labeled directly in the detected name, for example `Linux - Ubuntu 26.04 (ARM)`.
 
 If a selected file is a valid Linux image but is not recognized automatically, you can force Linux mode manually from **Options** → **Skip file analysis** → **Linux**.
 
-> Linux support has been tested with 19 distributions using the latest available releases as of April 30, 2026.[^5] Boot behavior was verified on a MacBook Air 2017 and additionally checked on an Asus F52Q with Legacy BIOS.
+> Linux support has been tested with 19 distributions using the latest available releases as of April 30, 2026, with boot behavior verified on real hardware.[^6]
 
-[^5]: Validated distributions: *Ubuntu*, *Kali Linux*, *NixOS*, *Garuda Linux*, *openSUSE Leap*, *Gentoo*, *Rocky Linux*, *Linux Mint*, *Fedora Workstation*, *Manjaro*, *Zorin OS*, *CachyOS*, *AlmaLinux*, *Debian*, *Arch Linux*, *MX Linux*, *Pop!_OS*, *EndeavourOS*, and *elementary OS*.
+[^6]: Validated distributions: *Ubuntu*, *Kali Linux*, *NixOS*, *Garuda Linux*, *openSUSE Leap*, *Gentoo*, *Rocky Linux*, *Linux Mint*, *Fedora Workstation*, *Manjaro*, *Zorin OS*, *CachyOS*, *AlmaLinux*, *Debian*, *Arch Linux*, *MX Linux*, *Pop!_OS*, *EndeavourOS*, and *elementary OS*. Boot behavior was verified on a MacBook Air 2017, a Dell OptiPlex 5040 with UEFI, and an Asus F52Q with Legacy BIOS.
 
 ---
 
