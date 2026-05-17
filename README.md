@@ -1,10 +1,10 @@
 # <img src="docs/readme-assets/images/macUSBicon.png" alt="macUSB" width="64" height="64" style="vertical-align: middle;"> macUSB
 
-### Download. Flash. Boot. The all-in-one macOS USB creator
+### Download. Flash. Boot. The all-in-one USB creator for Mac
 
 ![Platform](https://img.shields.io/badge/Platform-macOS-black) ![Architecture](https://img.shields.io/badge/Architecture-Apple_Silicon/Intel-black) ![License](https://img.shields.io/badge/License-MIT-blue) ![Security](https://img.shields.io/badge/Security-Notarized-success) [![Website](https://img.shields.io/badge/Website-macUSB-blueviolet)](https://kruszoneq.github.io/macUSB/)
 
-**macUSB** is a guided macOS app for creating bootable macOS USB installers on Apple Silicon and Intel Macs, from local `.dmg`, `.iso`, `.cdr`, and `.app` files or with the built-in downloader.
+**macUSB** is a guided macOS app for creating bootable USB media on Apple Silicon and Intel Macs from local `.dmg`, `.iso`, `.cdr`, and `.app` files, or with the built-in macOS downloader.
 
 ---
 
@@ -40,25 +40,29 @@ brew install --cask macusb
 
 ## 🔍 Why macUSB Exists
 
-As Apple Silicon Macs became the default host machines, preparing bootable USB installers for **macOS Catalina and older** turned into a frequent support issue.
+As Apple Silicon Macs became the default host machines, creating bootable USB installers for **macOS Catalina and older** turned into a recurring support issue.
 
-Common issues reported across forums and guides include:
+Common problems reported across forums and guides include:
 - codesign and certificate validation failures on legacy installer paths,
 - version-dependent compatibility constraints and tooling differences on newer hosts,
 - manual terminal workflows that are easy to misconfigure and hard to verify.
 
-**macUSB was built from practical research and tested fixes** gathered during repeated troubleshooting of these legacy installer scenarios.
+**macUSB was built through practical research and validated solutions** developed during repeated troubleshooting of these legacy installer scenarios.
+
+As adoption grew and feedback continued to come in, especially through Reddit discussions, macUSB expanded beyond legacy macOS USB creation. The app now includes a built-in macOS downloader and support for creating bootable Linux and Windows media, evolving into a more complete all-in-one tool for bootable USB workflows on Mac.
 
 ---
 
 ## ✅ Key Features
 
-- **Built-in Downloader:** discovers and downloads macOS installers available from Apple servers.
-- **Local source support:** build bootable macOS USB installers from local `.dmg`, `.iso`, `.cdr`, and `.app` files.
-- **One guided flow:** from source/downloader selection to final bootable media.
-- **Apple Silicon legacy support:** automatic compatibility handling for older installers during bootable USB creation.
-- **Automatic media prep:** partition and format checks with conversion when required.
-- **PowerPC-ready paths:** dedicated support for Tiger/Leopard-era scenarios.
+- **Built-in Downloader:** discover and download macOS installers available from Apple servers.
+- **Local source support:** create bootable USB media from local `.dmg`, `.iso`, `.cdr`, and `.app` files.
+- **One guided flow:** from source selection or download to finished bootable media.
+- **Apple Silicon legacy support:** automatic compatibility handling for older macOS installers during USB creation.
+- **Automatic media prep:** partition and format checks with conversion when required.[^1]
+- **Linux and Windows support:** create bootable USB media from supported Linux and Windows `.iso` images.
+
+[^1]: When creating macOS bootable media, APFS-formatted targets are not converted automatically. If the selected drive uses APFS, macUSB requires manual reformatting in Disk Utility before continuing.
 
 ---
 
@@ -66,13 +70,15 @@ Common issues reported across forums and guides include:
 
 1. Install macUSB using one of the methods listed in **How to Download macUSB**.
 2. Open macUSB and either:
-   - choose a local macOS installer (`.dmg`, `.iso`, `.cdr`, or `.app`), or
-   - use the built-in Downloader to fetch a macOS installer.
-3. Select the target USB drive and review operation details.
-4. Start creation and monitor stage-by-stage progress.
+   - choose a local source image or installer (`.dmg`, `.iso`, `.cdr`, or `.app`), or
+   - use the built-in Downloader to fetch a macOS installer from Apple.
+3. Select the target USB drive and review the operation details.
+4. Start the process and monitor bootable media creation stage by stage.
+   - ***All data on the selected USB drive will be erased.***
 5. Use the final result screen for next steps.
 
-> First launch note: macUSB requires two mandatory permissions for reliable installer creation: **enable Allow in the Background for macUSB** and **enable Full Disk Access for macUSB** in System Settings. Without these permissions, helper workflows may fail.
+> [!IMPORTANT]
+> macUSB requires two mandatory permissions for reliable bootable media creation: **enable Allow in the Background for macUSB** and **enable Full Disk Access for macUSB** in System Settings. Without these permissions, helper workflows may fail.
 
 <table align="center">
   <tr>
@@ -93,11 +99,9 @@ Common issues reported across forums and guides include:
   </tr>
 </table>
 
-> Warning: All data on the selected USB drive will be erased.
-
 ---
 
-## 🧭 App Workflow
+## 🧭 Workflow Details
 
 <p align="center">
   Click any screenshot to open full size.
@@ -106,44 +110,25 @@ Common issues reported across forums and guides include:
 <table align="center">
   <tr>
     <td align="center" valign="top">
-      <strong>1. Welcome</strong><br>
-      <a href="docs/readme-assets/app-screens/welcome-view.png">
-        <img src="docs/readme-assets/app-screens/welcome-view.png" alt="Welcome view" width="190">
+      <strong>macOS Installer</strong><br>
+      <a href="docs/readme-assets/app-screens/workflow-macos-details.png">
+        <img src="docs/readme-assets/app-screens/workflow-macos-details.png" alt="macOS installer workflow details" width="190">
       </a><br>
-      <sub>Start the workflow.</sub>
+      <sub>Review the selected macOS version, target USB drive, and creation steps before starting.</sub>
     </td>
     <td align="center" valign="top">
-      <strong>2. Source &amp; Target</strong><br>
-      <a href="docs/readme-assets/app-screens/source-target-configuration.png">
-        <img src="docs/readme-assets/app-screens/source-target-configuration.png" alt="Source and target configuration" width="190">
+      <strong>Linux Image</strong><br>
+      <a href="docs/readme-assets/app-screens/workflow-linux-details.png">
+        <img src="docs/readme-assets/app-screens/workflow-linux-details.png" alt="Linux workflow details" width="190">
       </a><br>
-      <sub>Choose local installer or Downloader, then select USB.</sub>
+      <sub>Linux workflow includes guidance for the expected unreadable-disk prompt shown by macOS during creation.</sub>
     </td>
     <td align="center" valign="top">
-      <strong>3. Operation Details</strong><br>
-      <a href="docs/readme-assets/app-screens/operation-details.png">
-        <img src="docs/readme-assets/app-screens/operation-details.png" alt="Operation details" width="190">
+      <strong>Windows Installer</strong><br>
+      <a href="docs/readme-assets/app-screens/workflow-windows-details.png">
+        <img src="docs/readme-assets/app-screens/workflow-windows-details.png" alt="Windows workflow details" width="190">
       </a><br>
-      <sub>Review process before start.</sub>
-    </td>
-  </tr>
-</table>
-
-<table align="center">
-  <tr>
-    <td align="center" valign="top">
-      <strong>4. Creating USB Media</strong><br>
-      <a href="docs/readme-assets/app-screens/creating-usb-media.png">
-        <img src="docs/readme-assets/app-screens/creating-usb-media.png" alt="Creation progress" width="190">
-      </a><br>
-      <sub>Track stage-by-stage progress.</sub>
-    </td>
-    <td align="center" valign="top">
-      <strong>5. Operation Result</strong><br>
-      <a href="docs/readme-assets/app-screens/operation-result.png">
-        <img src="docs/readme-assets/app-screens/operation-result.png" alt="Operation result" width="190">
-      </a><br>
-      <sub>Finish with next-step guidance.</sub>
+      <sub>Windows workflow highlights UEFI-only media preparation and the MBR/FAT32 target format.</sub>
     </td>
   </tr>
 </table>
@@ -177,7 +162,7 @@ Common issues reported across forums and guides include:
       <a href="docs/readme-assets/app-screens/downloader-summary.png">
         <img src="docs/readme-assets/app-screens/downloader-summary.png" alt="Downloader summary view" width="190">
       </a><br>
-      <sub>Review final status and use the installer in creation flow.</sub>
+      <sub>Review the final status and use the installer in the creation flow.</sub>
     </td>
   </tr>
 </table>
@@ -187,31 +172,32 @@ Common issues reported across forums and guides include:
 ## ⚙️ Requirements
 
 ### Host Computer
-- **Processor:** Apple Silicon or Intel.
+- **Architecture:** Apple Silicon or Intel.
 - **System:** **macOS 14.6 Sonoma** or newer.
 - **Free disk space:**
-  - **Downloader stage:** **15–45 GB**, depending on selected macOS version.
-  - **Installer creation stage:** **10–20 GB**, depending on target system version.
+  - **Downloader stage:** up to **45 GB**, depending on the selected macOS version.
+  - **macOS USB creation stage:** up to **20 GB**, depending on the selected source and system version.
 
 ### USB Media
-- **Capacity:** at least **16 GB**; use **32 GB minimum** for **macOS 15 Sequoia** and **macOS 26 Tahoe** installers.
+- **For macOS installers:** at least **16 GB**; **32 GB minimum** for **Sequoia and newer**.
+- **For Windows/Linux images:** **8 GB** or more, depending on the size of the selected `.iso` image.
 - **Performance:** USB 3.0+ is recommended.
-- **External HDD/SSD support:** installer creation on external hard drives is disabled by default on every app launch to improve safety and reduce the risk of accidental target selection. You can enable it in **Options** → **Enable external drives support**.
 
-### Installer Inputs
-Accepted local formats for macOS installers:
-- `.dmg`
-- `.cdr`
-- `.iso`
-- `.app`
+> [!NOTE]
+> External HDD/SSD support is disabled by default on every app launch to improve safety and reduce the risk of accidental target selection. You can enable it in **Options** → **Enable external drives support**.
 
-Or use the built-in Downloader to fetch installers available from Apple servers.
+### Source Inputs
+macUSB can work with either local source files or the built-in macOS Downloader.
+
+Accepted local source formats depend on the system recognized in the selected source:
+- **For macOS:** `.dmg`, `.cdr`, `.iso`, and `.app`
+- **For Windows/Linux:** `.iso`
 
 ---
 
-## 💿 Supported Versions
+## 💿 Supported macOS Installers
 
-Systems recognized and supported for USB creation:
+macOS versions recognized and supported for USB creation:
 
 | System | Version | Supported |
 | :--- | :--- | :---: |
@@ -224,38 +210,71 @@ Systems recognized and supported for USB creation:
 | **macOS Catalina** | 10.15 | ✅ |
 | **macOS Mojave** | 10.14 | ✅ |
 | **macOS High Sierra** | 10.13 | ✅ |
-| **macOS Sierra**[^1] | 10.12 | ✅ |
+| **macOS Sierra**[^2] | 10.12 | ✅ |
 | **OS X El Capitan** | 10.11 | ✅ |
 | **OS X Yosemite** | 10.10 | ✅ |
-| **OS X Mavericks**[^2] | 10.9 | ✅ |
+| **OS X Mavericks**[^3] | 10.9 | ✅ |
 | **OS X Mountain Lion** | 10.8 | ✅ |
 | **OS X Lion** | 10.7 | ✅ |
 | **Mac OS X Snow Leopard** | 10.6 | ✅ |
 | **Mac OS X Leopard** | 10.5 | ✅ |
-| **Mac OS X Tiger**[^3] | 10.4 | ✅ |
+| **Mac OS X Tiger**[^4] | 10.4 | ✅ |
 
-> The table describes versions supported for bootable USB creation.
-> Downloader availability depends on installers currently published by Apple.
-
-[^1]: Only **10.12.6** is supported.
-[^2]: Fully verified with the image from [Mavericks Forever](https://mavericksforever.com/). Other sources may fail.
-[^3]: **Single DVD** is auto-detected. **Multi-DVD** guide: [Tiger Multi-DVD Guide](https://kruszoneq.github.io/macUSB/pages/guides/multidvd_tiger.html).
+[^2]: Only **10.12.6** is supported.
+[^3]: Fully verified with the image from [Mavericks Forever](https://mavericksforever.com/). Other sources may fail.
+[^4]: **Single-DVD** images are auto-detected. For **Multi-DVD** images, only the first disc is recognized correctly. Other discs may appear as unrecognized or be identified incorrectly. To use them, force detection manually from **Options** → **Skip file analysis** → **Mac OS X Tiger 10.4 (Multi DVD)**.
 
 ---
 
-## 🧩 Legacy & PowerPC Notes
+## 🪟 Windows Support
 
-A dedicated Open Firmware guide is available on the project website, based on real boot-testing of PowerPC USB workflows with installers created by macUSB.
+macUSB recognizes Windows `.iso` images starting from **Windows XP** and **Windows Server 2003**.
 
-Test coverage includes:
+Bootable Windows USB creation is currently supported for **Windows 8 and newer** and **Windows Server 2012 and newer**. Prepared media is **UEFI-only**.[^5]
+
+When a Windows image is recognized, macUSB detects the edition automatically. For ARM builds, the architecture is labeled directly in the detected name, for example `Windows 11 (ARM)`.
+
+During Windows USB creation, macUSB formats the selected target as **MBR** with **FAT32**. Because FAT32 has a **4 GB per-file limit**, some modern Windows images may require extra preparation. If `install.wim` exceeds that limit, macUSB automatically splits it into smaller `.swm` parts using `wimlib`.
+
+> [!IMPORTANT]
+> [`wimlib`](https://wimlib.net/) is required only when the selected Windows image needs `install.wim` splitting. It is not bundled with macUSB and must be installed separately by the user. The simplest install path is Homebrew:
+>
+> ```bash
+> brew install wimlib
+> ```
+>
+> macUSB checks automatically whether `wimlib-imagex` is available when this step is required.
+
+[^5]: Booting and installation were tested on a Dell OptiPlex 5040 with UEFI and Secure Boot enabled.
+
+---
+
+## 🐧 Linux Support
+
+macUSB also supports creating bootable USB media from Linux `.iso` images.
+
+When a Linux image is recognized, macUSB detects the distribution, version, and architecture automatically. ARM builds are labeled directly in the detected name, for example `Linux - Ubuntu 26.04 (ARM)`.
+
+If a selected file is a valid Linux image but is not recognized automatically, you can force Linux mode manually from **Options** → **Skip file analysis** → **Linux**.
+
+> Linux support has been tested with 19 distributions using the latest available releases as of April 30, 2026, with boot behavior verified on real hardware.[^6]
+
+[^6]: Validated distributions: *Ubuntu*, *Kali Linux*, *NixOS*, *Garuda Linux*, *openSUSE Leap*, *Gentoo*, *Rocky Linux*, *Linux Mint*, *Fedora Workstation*, *Manjaro*, *Zorin OS*, *CachyOS*, *AlmaLinux*, *Debian*, *Arch Linux*, *MX Linux*, *Pop!_OS*, *EndeavourOS*, and *elementary OS*. Boot behavior was verified on a MacBook Air 2017, a Dell OptiPlex 5040 with UEFI, and an Asus F52Q with Legacy BIOS.
+
+---
+
+## 🧩 PowerPC Notes
+
+If you are reviving a PowerPC Mac, the project website includes a dedicated Open Firmware guide based on real boot testing of PowerPC USB workflows created with macUSB.
+
+Validated scenarios include:
 - **Mac OS X Tiger** and **Mac OS X Leopard** boot scenarios,
 - **Single DVD** editions, and for Tiger also the **Multi-DVD** path,
-- Open Firmware boot command usage verified in real hardware tests (including an **iMac G5**).
+- Open Firmware boot commands verified in real hardware tests, including an **iMac G5**.
 
-If you are reviving a PowerPC Mac, use this [step-by-step guide](https://kruszoneq.github.io/macUSB/pages/guides/ppc_boot_instructions.html).
+Use the [step-by-step guide](https://kruszoneq.github.io/macUSB/pages/guides/ppc_boot_instructions.html) for setup and boot instructions.
 
-> **Note:** PowerPC USB boot support can vary by model, especially on older hardware.
-> During validation testing, USB boot was confirmed on an **iMac G5**. On an **iBook G4 (2003)**, the USB device was detected but still failed as a readable boot source.
+> PowerPC USB boot behavior can vary by model. During validation testing, USB boot was confirmed on an **iMac G5**, while an **iBook G4 (2003)** detected the USB device but did not boot from it successfully.
 
 ---
 
@@ -281,10 +300,11 @@ The interface follows system language automatically:
 
 ## 🛠️ Diagnostics & Support
 
-Use [GitHub Issues](https://github.com/Kruszoneq/macUSB/issues) for troubleshooting, bug reports, and feature requests.
+If you need help with macUSB or want to report a problem, use [GitHub Issues](https://github.com/Kruszoneq/macUSB/issues).
 
-Before submitting:
-- use the appropriate issue template,
+Before opening an issue:
+- check whether the same problem has already been reported,
+- choose the issue template that best matches your case,
 - attach diagnostic logs exported from `Help` → `Export diagnostic logs...`,
 - attach screenshots showing the issue.
 

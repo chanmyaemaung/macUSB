@@ -15,6 +15,11 @@ Destructive start requires explicit confirmation.
 - Progress screen reflects helper-driven stages.
 - Finish screen reports success/failure/cancel plus cleanup status.
 
+Linux-specific runtime behavior:
+- recognized Linux image (`.iso`) unlocks the same shared install flow,
+- USB validation keeps capacity gating, while APFS blocking is macOS-only (Linux uses physical `diskX` targets),
+- creation branch uses Linux raw-copy helper stages.
+
 ## Tools Flow: Downloader
 
 - `Tools -> Download macOS installer...` opens downloader window.

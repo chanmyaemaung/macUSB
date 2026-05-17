@@ -1,7 +1,7 @@
 name: "Bug Report - Downloader"
 description: "Report issues related to macOS installer discovery/download flow."
 title: "[Downloader] "
-labels: ["bug", "triage", "downloader"]
+labels: ["bug", "downloader"]
 body:
   - type: markdown
     attributes:

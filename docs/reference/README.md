@@ -20,9 +20,12 @@ Use this map before reading feature-specific references:
 
 ### UI and visual consistency
 - `docs/reference/design/DESIGN_SYSTEM.md`
+- `docs/reference/platform/TOUCHBAR.md`
 
 ### Analysis and compatibility routing
 - `docs/reference/features/analysis/ANALYSIS_COMPATIBILITY.md`
+- `docs/reference/features/analysis/WINDOWS_ANALYSIS_FLOW.md`
+- `docs/reference/features/analysis/LINUX_ANALYSIS_FLOW.md`
 
 ### USB target validation and capacity
 - `docs/reference/features/usb/USB_VALIDATION_AND_CAPACITY.md`

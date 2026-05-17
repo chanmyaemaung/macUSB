@@ -1,7 +1,7 @@
-name: "Bug Report - USB Creation"
-description: "Report issues related to analysis and bootable USB creation flow."
-title: "[USB Creation] "
-labels: ["bug", "triage", "usb-creation"]
+name: "Bug Report - Windows USB Creation"
+description: "Report issues related to Windows image analysis and USB creation."
+title: "[Windows USB Creation] "
+labels: ["bug", "usb-creation", "windows"]
 body:
   - type: markdown
     attributes:
@@ -13,7 +13,7 @@ body:
     id: app_version
     attributes:
       label: "macUSB version"
-      placeholder: "e.g., v2.1"
+      placeholder: "e.g., v2.2"
     validations:
       required: true
 
@@ -35,6 +35,16 @@ body:
     validations:
       required: true
 
+  - type: checkboxes
+    id: required_permissions
+    attributes:
+      label: "Required permissions"
+      options:
+        - label: "I enabled Full Disk Access for macUSB in System Settings"
+          required: true
+        - label: "I enabled Allow in the Background for macUSB in System Settings"
+          required: true
+
   - type: dropdown
     id: helper_repair
     attributes:
@@ -42,47 +52,45 @@ body:
       options:
         - "Yes"
         - "No"
+        - "Not applicable"
     validations:
       required: true
 
   - type: input
-    id: target_system
+    id: target_windows_version
     attributes:
-      label: "Which system were you creating?"
-      placeholder: "e.g., Mac OS X Tiger 10.4 / macOS Ventura 13.7"
-    validations:
-      required: true
-
-  - type: dropdown
-    id: installer_origin
-    attributes:
-      label: "Installer source origin"
-      options:
-        - "Downloader"
-        - "Local file"
-        - "Other"
+      label: "Which Windows system were you creating?"
+      placeholder: "e.g., Windows 10 22H2 / Windows 11 24H2 / Windows Server 2019"
     validations:
       required: true
 
   - type: dropdown
     id: installer_format
     attributes:
-      label: "Installer format"
+      label: "Image format"
       options:
-        - ".dmg"
-        - ".app"
         - ".iso"
         - ".cdr"
-        - "Other"
     validations:
       required: true
 
   - type: textarea
     id: installer_source_details
     attributes:
-      label: "Installer source details"
-      description: "Where does the installer come from? Add link/source details."
-      placeholder: "e.g., Downloaded in macUSB Downloader / local file from ..."
+      label: "Image source details"
+      description: "Where does the image come from? Add link/source details."
+      placeholder: "e.g., Microsoft download page / Volume Licensing Service Center"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: wimlib_installed
+    attributes:
+      label: "Is `wimlib` installed on your system?"
+      options:
+        - "Yes"
+        - "No"
+        - "Not applicable"
     validations:
       required: true
 
@@ -97,6 +105,14 @@ body:
     validations:
       required: true
 
+  - type: textarea
+    id: problem_description
+    attributes:
+      label: "Problem description"
+      placeholder: "Describe the issue in a few sentences."
+    validations:
+      required: true
+
   - type: dropdown
     id: media_type
     attributes:
@@ -104,14 +120,7 @@ body:
       options:
         - "Pendrive"
         - "Hard drive"
-    validations:
-      required: true
-
-  - type: input
-    id: media_capacity
-    attributes:
-      label: "Target media capacity"
-      placeholder: "e.g., 16 GB / 32 GB / 64 GB"
+        - "Not applicable"
     validations:
       required: true
 
@@ -132,7 +141,7 @@ body:
       label: "Steps to reproduce"
       placeholder: |
         1. Open macUSB
-        2. Select installer ...
+        2. Select Windows image ...
         3. Select target USB ...
         4. Start process
         5. Observe error

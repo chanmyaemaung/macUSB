@@ -25,6 +25,11 @@ struct CreationProgressView: View {
     let isRestoreLegacy: Bool
     let isMavericks: Bool
     let isPPC: Bool
+    let isLinuxWorkflow: Bool
+    let isWindowsWorkflow: Bool
+    let windowsWillSplitWimExpected: Bool
+    let shouldDetachMountPoint: Bool
+    let targetWholeDiskBSDName: String?
     let needsPreformat: Bool
     let onReset: () -> Void
     let onCancelRequested: () -> Void
@@ -39,6 +44,8 @@ struct CreationProgressView: View {
     @Binding var isCancelling: Bool
     @Binding var navigateToFinish: Bool
     @Binding var helperOperationFailed: Bool
+    @Binding var workflowResultDetailMessage: String?
+    @Binding var workflowResultErrorPresentation: LinuxWorkflowErrorPresentation?
     @Binding var didCancelCreation: Bool
     @Binding var creationStartedAt: Date?
     private var sectionIconFont: Font { .title3 }
@@ -59,6 +66,14 @@ struct CreationProgressView: View {
     }
 
     private var stageDescriptors: [CreationStageDescriptor] {
+        if isLinuxWorkflow {
+            return CreationProgressLinuxMapping.stageKeys.map(stageDescriptor(for:))
+        }
+        if isWindowsWorkflow {
+            let includeSplit = windowsWillSplitWimExpected || normalizedStageKey(helperCurrentStageKey) == CreationProgressWindowsMapping.splitWimStageKey
+            return CreationProgressWindowsMapping.stageKeys(includeSplitWim: includeSplit).map(stageDescriptor(for:))
+        }
+
         var stageKeys: [String] = ["prepare_source"]
 
         if isPPC {
@@ -160,10 +175,16 @@ struct CreationProgressView: View {
                     mountPoint: mountPoint,
                     onReset: onReset,
                     isPPC: isPPC,
+                    isLinuxWorkflow: isLinuxWorkflow,
+                    isWindowsWorkflow: isWindowsWorkflow,
                     didFail: helperOperationFailed,
                     didCancel: didCancelCreation,
                     creationStartedAt: creationStartedAt,
-                    detectedSystemIcon: detectedSystemIcon
+                    shouldDetachMountPoint: shouldDetachMountPoint,
+                    detectedSystemIcon: detectedSystemIcon,
+                    resultDetailMessage: workflowResultDetailMessage,
+                    linuxErrorPresentation: workflowResultErrorPresentation,
+                    targetWholeDiskBSDName: targetWholeDiskBSDName
                 ),
                 isActive: $navigateToFinish
             ) { EmptyView() }
@@ -211,7 +232,7 @@ struct CreationProgressView: View {
                                 .foregroundColor(.accentColor)
                         }
                     }
-                    Text(LocalizedStringKey(helperStatusKey.isEmpty ? "Rozpoczynanie..." : helperStatusKey))
+                    Text(LocalizedStringKey(helperStatusKey.isEmpty ? HelperWorkflowLocalizationKeys.initializingStatus : helperStatusKey))
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     if shouldShowCopyProgress(for: stage.key) {
@@ -287,6 +308,13 @@ struct CreationProgressView: View {
     }
 
     private func pendingIconForStage(_ stageKey: String) -> String {
+        if let icon = CreationProgressWindowsMapping.pendingIcon(for: stageKey) {
+            return icon
+        }
+        if let icon = CreationProgressLinuxMapping.pendingIcon(for: stageKey) {
+            return icon
+        }
+
         switch stageKey {
         case "prepare_source":
             return "tray.and.arrow.down"
@@ -310,6 +338,13 @@ struct CreationProgressView: View {
     }
 
     private func activeIconForStage(_ stageKey: String) -> String {
+        if let icon = CreationProgressWindowsMapping.activeIcon(for: stageKey) {
+            return icon
+        }
+        if let icon = CreationProgressLinuxMapping.activeIcon(for: stageKey) {
+            return icon
+        }
+
         switch stageKey {
         case "prepare_source":
             return "tray.and.arrow.down.fill"
@@ -333,6 +368,13 @@ struct CreationProgressView: View {
     }
 
     private func shouldShowWriteSpeed(for stageKey: String) -> Bool {
+        if CreationProgressWindowsMapping.showsWriteSpeed(for: stageKey) {
+            return true
+        }
+        if CreationProgressLinuxMapping.showsWriteSpeed(for: stageKey) {
+            return true
+        }
+
         switch stageKey {
         case "restore", "ppc_restore", "createinstallmedia", "catalina_copy":
             return true
@@ -342,6 +384,13 @@ struct CreationProgressView: View {
     }
 
     private func shouldShowCopyProgress(for stageKey: String) -> Bool {
+        if CreationProgressWindowsMapping.showsCopyProgress(for: stageKey) {
+            return true
+        }
+        if CreationProgressLinuxMapping.showsCopyProgress(for: stageKey) {
+            return true
+        }
+
         switch stageKey {
         case "restore", "ppc_restore", "createinstallmedia", "catalina_copy":
             return true
@@ -376,6 +425,16 @@ struct CreationProgressView: View {
     }
 
     private func normalizedStageKey(_ rawStageKey: String) -> String {
+        let windowsNormalized = CreationProgressWindowsMapping.canonicalStageKey(rawStageKey)
+        if windowsNormalized != rawStageKey {
+            return windowsNormalized
+        }
+
+        let linuxNormalized = CreationProgressLinuxMapping.canonicalStageKey(rawStageKey)
+        if linuxNormalized != rawStageKey {
+            return linuxNormalized
+        }
+
         switch rawStageKey {
         case "catalina_ditto", "ditto":
             return "catalina_copy"

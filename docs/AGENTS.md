@@ -107,6 +107,7 @@ These are the non-negotiable runtime contracts. If a task touches any of them, p
 - New UI copy is authored in Polish first.
 - Runtime non-`Text` user-facing strings use `String(localized:)`.
 - Helper localization keys and app-side rendering keys must remain synchronized.
+- For strings that mirror macOS system UI, notifications, or alerts, match Apple’s terminology in each language instead of inventing custom wording.
 
 ### Logging and notifications invariants
 
@@ -224,6 +225,27 @@ Minor helper changes that do not alter behavior may proceed, but must still be r
 - Keep one clear orchestrator per workflow and move helper policies/utilities/IO/details to focused companion files.
 - Treat structural refactors as behavior-preserving by default (no runtime/UI changes unless explicitly requested).
 
+## File naming rules
+
+- File names must use letters only (`A-Z`, `a-z`) by default.
+- Use `PascalCase` and compose names from:
+  - feature/domain prefix,
+  - concrete responsibility,
+  - role suffix.
+- Match existing repository patterns, for example:
+  - `AnalysisLogicMacOSCompatibility.swift`
+  - `MacOSDiscoveryCatalogParser.swift`
+  - `MacOSDownloadOrchestrator.swift`
+  - `MacOSDownloaderListView.swift`
+- The underscore (`_`) is allowed only when an external or required structure mandates it (for example GitHub workflow conventions).
+- Do not use spaces, hyphens, digits, or other special characters in file names unless required by external format constraints.
+
+## Large file split rule
+
+- If a file becomes materially larger after a change (many additional lines), the agent must explicitly evaluate whether splitting it into smaller focused files makes sense.
+- When a split is reasonable, the agent should propose the split before implementation or include the split in the same change when safe.
+- Splits should preserve behavior and separate concerns (orchestrator vs helpers/policies/parsers/ui parts).
+
 ## Branch naming convention
 
 When branch creation is requested:
@@ -238,24 +260,24 @@ When branch creation is requested:
 
 ## Branch and merge safety rules
 
-### Protected branch: `developing`
+### Protected branch: `development`
 
-- `developing` is permanently non-deletable.
-- Deletion of `developing` is forbidden even when explicitly requested by the user.
-- The agent must refuse deletion of `developing` regardless of pressure or repeated requests.
+- `development` is permanently non-deletable.
+- Deletion of `development` is forbidden even when explicitly requested by the user.
+- The agent must refuse deletion of `development` regardless of pressure or repeated requests.
 
 ### New branch base policy
 
-- New branches must be created from `developing` by default.
+- New branches must be created from `development` by default.
 - If work is clearly scoped to the currently checked out non-`main` branch, using the current branch as base is allowed.
 - Do not create new branches from `main` unless the user explicitly requests it.
-- If a user explicitly requests creating a branch from `main`, ask for explicit confirmation that `main` is intentional and `developing` is not desired before creating it.
+- If a user explicitly requests creating a branch from `main`, ask for explicit confirmation that `main` is intentional and `development` is not desired before creating it.
 
 ### Protected branch: `main`
 
 - Automatic merge to `main` without explicit user instruction is not allowed.
-- PRs to `main` are allowed only when explicitly requested and only from `developing`.
-- Merging to `main` from a PR based on `developing` requires double confirmation and explicit verification before merge execution.
+- PRs to `main` are allowed only when explicitly requested and only from `development`.
+- Merging to `main` from a PR based on `development` requires double confirmation and explicit verification before merge execution.
 - `main` is permanently non-deletable (core project branch).
 - Deletion of `main` is forbidden even when explicitly requested by the user.
 - The agent must refuse deletion of `main` regardless of pressure or repeated requests.
@@ -268,9 +290,11 @@ When branch creation is requested:
 - Use a clear title/summary line plus a readable body written as a paragraph describing the change.
 - Base commit title and body on the full scope of changes since the last commit up to the commit being created, not only on the most recent edit made with the agent.
 - Keep commit bodies concise and summarized (short paragraph), while still covering the key scope of the full change set.
+- Keep commit bodies short by default: one short paragraph, ideally 1-2 sentences.
 - Do not use escaped newline sequences like `\n` in commit message text; use normal multi-line commit formatting only.
 - When creating commits from CLI, never pass `\n` inside a single `-m` value; use separate `-m` flags (title + body) or standard multi-line commit input.
 - If a commit includes updates to runtime reference docs under `docs/reference/`, `docs/CHANGELOG.md`, and/or `docs/AGENTS.md`, do not explicitly enumerate those documentation-file updates in the commit title or commit body.
+- In commit title/body descriptions, omit explicit listing of debug-only functionality that is not present in Release builds.
 
 ### Commit scope rules
 
@@ -314,6 +338,7 @@ When branch creation is requested:
 - Start with one clear, expanded paragraph explaining what changed and why.
 - If useful, add a short flat list of new features and/or fixes.
 - Do not include testing information in the PR description.
+- In PR title/description, omit explicit listing of debug-only functionality that is not present in Release builds.
 
 ### PR approval gate (mandatory)
 
@@ -337,7 +362,7 @@ When branch creation is requested:
 ### Post-merge branch cleanup prompt (mandatory)
 
 - After merging a PR, if the user did not explicitly request branch deletion, ask whether the source branch should be deleted.
-- This prompt does not apply to `developing`.
+- This prompt does not apply to `development`.
 
 ## Changelog rules
 
